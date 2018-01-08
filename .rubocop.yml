@@ -1,0 +1,6 @@
+inherit_gem:
+  bixby: bixby_default.yml
+
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'
