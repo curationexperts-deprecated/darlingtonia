@@ -22,7 +22,7 @@ module Darlingtonia
       # @raise
       def for(file:)
         klass =
-          @subclasses.find { |k| k.match?(filename: file) } ||
+          @subclasses.find { |k| k.match?(file: file) } ||
           raise(NoParserError)
 
         klass.new
