@@ -1,0 +1,14 @@
+language: ruby
+sudo:     false
+cache:    bundler
+dist:     trusty
+
+rvm:
+  - 2.3.4
+  - 2.4
+  - 2.5
+script:
+  - bundle exec rake
+matrix:
+  allow_failures:
+    - rvm: 2.5
