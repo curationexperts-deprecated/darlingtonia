@@ -3,11 +3,12 @@
 require 'spec_helper'
 
 describe Darlingtonia::Parser do
-  subject(:parser) { described_class.new }
+  subject(:parser) { described_class.new(file: file) }
+  let(:file)       { :fake_file }
+
+  it_behaves_like 'a Darlingtonia::Parser'
 
   describe '.for' do
-    let(:file) { :fake_file }
-
     it 'raises an error' do
       expect { described_class.for(file: file) }.to raise_error TypeError
     end

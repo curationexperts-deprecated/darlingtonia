@@ -12,6 +12,18 @@ module Darlingtonia
   class Parser
     @subclasses = [] # @private
 
+    ##
+    # @!attribute [rw] file
+    #   @return [File]
+    attr_accessor :file
+
+    ##
+    # @param file [File]
+    def initialize(file:, **_opts)
+      self.file = file
+      yield self if block_given?
+    end
+
     class << self
       ##
       # @param file [Object]
@@ -25,7 +37,7 @@ module Darlingtonia
           @subclasses.find { |k| k.match?(file: file) } ||
           raise(NoParserError)
 
-        klass.new
+        klass.new(file: file)
       end
 
       ##
@@ -45,6 +57,9 @@ module Darlingtonia
 
     ##
     # @abstract
+    #
+    # @yield [record] gives each record in the file to the block
+    # @yieldparam record [ImportRecord]
     #
     # @return [Enumerable<ImportRecord>]
     def records

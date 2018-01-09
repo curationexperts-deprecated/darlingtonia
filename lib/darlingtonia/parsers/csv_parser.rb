@@ -1,3 +1,7 @@
+# frozen_string_literal: true
+
+require 'csv'
+
 module Darlingtonia
   ##
   # A parser for CSV files
@@ -6,7 +10,7 @@ module Darlingtonia
 
     class << self
       ##
-      # @
+      # Matches all '.csv' filenames.
       def match?(file:, **_opts)
         File.extname(file) == EXTENSION
       rescue TypeError
@@ -19,7 +23,13 @@ module Darlingtonia
     #
     # @see Parser#records
     def records
-      []
+      return enum_for(:records) unless block_given?
+
+      file.rewind
+
+      CSV.parse(file.read, headers: true).each do |row|
+        yield InputRecord.from(metadata: row)
+      end
     end
   end
 end
