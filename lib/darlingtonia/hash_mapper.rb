@@ -29,6 +29,7 @@ module Darlingtonia
     ##
     # @return [Enumerable<Symbol>] The fields the mapper can process
     def fields
+      return [] if metadata.nil?
       metadata.keys.map(&:to_sym)
     end
 
