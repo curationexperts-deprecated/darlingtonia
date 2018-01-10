@@ -8,4 +8,5 @@ module Darlingtonia
   require 'darlingtonia/input_record'
   require 'darlingtonia/parser'
   require 'darlingtonia/parsers/csv_parser'
+  require 'darlingtonia/validator'
 end
