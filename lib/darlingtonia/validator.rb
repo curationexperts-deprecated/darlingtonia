@@ -11,8 +11,11 @@ module Darlingtonia
     # @param error_stream [#add]
     #
     # @return [Enumerator<Error>] a collection of errors found in validation
-    def validate(*) # (parser:, error_stream:)
+    #
+    # rubocop:disable Lint/UnusedMethodArgument
+    def validate(parser:, **)
       []
     end
+    # rubocop:enable Lint/UnusedMethodArgument
   end
 end

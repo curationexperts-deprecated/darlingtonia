@@ -9,7 +9,7 @@ module Darlingtonia
   #   validator.validate(:anything, :at, :all) # => [Error<#...>]
   class AlwaysInvalidValidator < Validator
     ##
-    # @return [Array]
+    # @return [Array<Validator::Error>]
     def validate(*)
       [Error.new(self, :everytime)]
     end
