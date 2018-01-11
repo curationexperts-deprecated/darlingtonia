@@ -13,13 +13,19 @@ describe Darlingtonia::InputRecord do
       .to have_attributes(mapper: an_instance_of(Darlingtonia::HashMapper))
   end
 
+  describe '#attributes' do
+    it 'handles basic text fields' do
+      expect(record.attributes).to include(:title, :description)
+    end
+  end
+
   describe 'mapped fields' do
     it 'has methods for metadata fields' do
-      expect(record.title).to eq metadata['title']
+      expect(record.title).to contain_exactly metadata['title']
     end
 
     it 'has methods for additional mapped metadata fields' do
-      expect(record.description).to eq metadata['description']
+      expect(record.description).to contain_exactly metadata['description']
     end
 
     it 'knows it responds to methods for metadata fields' do

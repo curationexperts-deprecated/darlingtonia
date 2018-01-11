@@ -22,6 +22,14 @@ module Darlingtonia
     end
 
     ##
+    # @return [Hash<Symbol, Object>]
+    def attributes
+      mapper.fields.each_with_object({}) do |field, attrs|
+        attrs[field] = public_send(field)
+      end
+    end
+
+    ##
     # Respond to methods matching mapper fields
     def method_missing(method_name, *args, &block)
       return super unless mapper.field?(method_name)

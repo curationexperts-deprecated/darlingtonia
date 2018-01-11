@@ -37,12 +37,12 @@ EOS
 
     it 'has the correct titles' do
       expect(parser.records.map(&:title))
-        .to contain_exactly('The Moomins and the Great Flood',
-                            'Comet in Moominland')
+        .to contain_exactly(['The Moomins and the Great Flood'],
+                            ['Comet in Moominland'])
     end
 
     it 'has correct other fields' do
-      expect(parser.records.map(&:date)).to contain_exactly('1945', '1946')
+      expect(parser.records.map(&:date)).to contain_exactly(['1945'], ['1946'])
     end
   end
 end

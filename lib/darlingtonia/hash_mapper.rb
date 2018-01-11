@@ -34,7 +34,7 @@ module Darlingtonia
     end
 
     def method_missing(method_name, *args, &block)
-      return metadata[method_name.to_s] if fields.include?(method_name)
+      return Array(metadata[method_name.to_s]) if fields.include?(method_name)
       super
     end
 
