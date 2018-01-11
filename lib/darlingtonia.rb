@@ -6,8 +6,6 @@ module Darlingtonia
   require 'darlingtonia/version'
   require 'darlingtonia/hash_mapper'
 
-  require 'darlingtonia/importer'
-
   require 'darlingtonia/input_record'
 
   require 'darlingtonia/parser'
