@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'darlingtonia/always_invalid_validator'
 
 shared_examples 'a Darlingtonia::Parser' do

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 shared_examples 'a Darlingtonia::Validator' do
   subject(:validator) { described_class.new }
 

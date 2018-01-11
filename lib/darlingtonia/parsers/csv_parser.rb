@@ -6,7 +6,7 @@ module Darlingtonia
   ##
   # A parser for CSV files
   class CsvParser < Parser
-    EXTENSION = '.csv'.freeze
+    EXTENSION = '.csv'
 
     class << self
       ##
