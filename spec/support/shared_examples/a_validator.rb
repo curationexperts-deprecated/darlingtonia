@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 shared_examples 'a Darlingtonia::Validator' do
-  subject(:validator) { described_class.new }
+  subject(:validator) { described_class.new(error_stream: error_stream) }
+  let(:error_stream)  { [] }
 
   define :be_a_validator_error do # |expected|
     match { false } # { |actual| some_condition }
@@ -30,6 +31,14 @@ shared_examples 'a Darlingtonia::Validator' do
 
         validator.validate(parser: invalid_parser).each do |error|
           expect(error).to be_a_validator_error
+        end
+      end
+
+      it 'writes errors to the error stream' do
+        if defined?(invalid_parser)
+          expect { validator.validate(parser: invalid_parser) }
+            .to change { error_stream }
+            .to include(an_instance_of(Darlingtonia::Validator::Error))
         end
       end
     end

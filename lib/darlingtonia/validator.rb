@@ -17,18 +17,42 @@ module Darlingtonia
   #                   lineno: 37>
   #
   class Validator
-    Error = Struct.new(:validator, :name, :description, :lineno)
+    Error = Struct.new(:validator, :name, :description, :lineno) do
+      def to_s
+        "#{name}: #{description} (#{validator})"
+      end
+    end
 
     ##
-    # @param parser       [Parser]
-    # @param error_stream [#add]
+    # @!attribute [rw] error_stream
+    #   @return [#<<]
+    attr_accessor :error_stream
+
+    ##
+    # @param error_stream [#<<]
+    def initialize(error_stream: STDOUT)
+      self.error_stream = error_stream
+    end
+
+    ##
+    # @param parser [Parser]
     #
     # @return [Enumerator<Error>] a collection of errors found in validation
-    #
-    # rubocop:disable Lint/UnusedMethodArgument
-    def validate(parser:, **)
-      []
+    def validate(parser:)
+      run_validation(parser: parser).tap do |errors|
+        errors.each { |error| error_stream << error }
+      end
     end
     # rubocop:enable Lint/UnusedMethodArgument
+
+    private
+
+      ##
+      # @return [Enumerator<Error>]
+      #
+      # rubocop:disable Lint/UnusedMethodArgument
+      def run_validation(parser:)
+        []
+      end
   end
 end

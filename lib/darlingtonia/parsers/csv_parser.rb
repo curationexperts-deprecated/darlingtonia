@@ -6,6 +6,7 @@ module Darlingtonia
   ##
   # A parser for CSV files
   class CsvParser < Parser
+    DEFAULT_VALIDATORS = [CsvFormatValidator.new].freeze
     EXTENSION = '.csv'
 
     class << self

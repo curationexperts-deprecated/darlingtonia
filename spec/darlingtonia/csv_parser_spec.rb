@@ -46,4 +46,18 @@ EOS
       expect(parser.records.map(&:date)).to contain_exactly(['1945'], ['1946'])
     end
   end
+
+  describe '#validate' do
+    it 'is valid' do
+      expect(parser.validate).to be_truthy
+    end
+
+    context 'with invalid file' do
+      let(:file) { File.open('spec/fixtures/bad_example.csv') }
+
+      it 'is invalid' do
+        expect(parser.validate).to be_falsey
+      end
+    end
+  end
 end

@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe Darlingtonia::CsvFormatValidator do
-  subject(:validator)  { described_class.new }
+  subject(:validator)  { described_class.new(error_stream: []) }
   let(:invalid_parser) { Darlingtonia::CsvParser.new(file: invalid_file) }
   let(:invalid_file)   { File.open('spec/fixtures/bad_example.csv') }
 

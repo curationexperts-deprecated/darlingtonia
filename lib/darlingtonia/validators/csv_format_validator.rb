@@ -12,8 +12,10 @@ module Darlingtonia
   # @see http://ruby-doc.org/stdlib-2.0.0/libdoc/csv/rdoc/CSV/MalformedCSVError.html
   class CsvFormatValidator < Validator
     ##
+    # @private
+    #
     # @see Validator#validate
-    def validate(parser:, **)
+    def run_validation(parser:, **)
       return [] if CSV.parse(parser.file.read)
     rescue CSV::MalformedCSVError => e
       [Error.new(self.class, e.class, e.message)]

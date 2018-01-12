@@ -35,4 +35,16 @@ describe 'importing a csv batch' do
   it 'creates a record for each CSV line' do
     expect { importer.import }.to change { Work.count }.to 3
   end
+
+  describe 'validation' do
+    context 'with invalid CSV' do
+      let(:file) { File.open('spec/fixtures/bad_example.csv') }
+
+      it 'outputs invalid file notice to error stream' do
+        expect { parser.validate }
+          .to output(/^CSV::MalformedCSVError.*line 2/)
+          .to_stdout_from_any_process
+      end
+    end
+  end
 end
