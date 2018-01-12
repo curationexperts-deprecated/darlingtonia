@@ -3,6 +3,19 @@
 module Darlingtonia
   ##
   # @abstract A null validator; always returns an empty error collection
+  #
+  # @example validating a parser
+  #   validator = MyValidator.new
+  #   validator.validate(parser: myParser)
+  #
+  # @example validating an invalid parser
+  #   validator = MyValidator.new
+  #   validator.validate(parser: invalidParser)
+  #   # => Error<#... validator: MyValidator,
+  #                   name: 'An Error Name',
+  #                   description: '...'
+  #                   lineno: 37>
+  #
   class Validator
     Error = Struct.new(:validator, :name, :description, :lineno)
 

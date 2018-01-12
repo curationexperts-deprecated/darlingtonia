@@ -2,6 +2,7 @@
 # frozen_string_literal: true
 
 require 'spec_helper'
+require 'tempfile'
 
 describe Darlingtonia::CsvParser do
   subject(:parser) { described_class.new(file: file) }
