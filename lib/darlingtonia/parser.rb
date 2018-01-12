@@ -9,8 +9,10 @@ module Darlingtonia
   #
   #   Parser.for(file: file).records
   #
+  # rubocop:disable Style/ClassVars
   class Parser
-    @subclasses = [] # @private
+    DEFAULT_VALIDATORS = [].freeze
+    @@subclasses = [] # @private
 
     ##
     # @!attribute [rw] file
@@ -42,7 +44,7 @@ module Darlingtonia
       # @raise [NoParserError]
       def for(file:)
         klass =
-          @subclasses.find { |k| k.match?(file: file) } ||
+          @@subclasses.find { |k| k.match?(file: file) } ||
           raise(NoParserError)
 
         klass.new(file: file)
@@ -58,7 +60,7 @@ module Darlingtonia
       ##
       # @private Register a new class when inherited
       def inherited(subclass)
-        @subclasses << subclass
+        @@subclasses.unshift subclass
         super
       end
     end
@@ -99,5 +101,5 @@ module Darlingtonia
 
     class NoParserError < TypeError; end
     class ValidationError < RuntimeError; end
-  end
+  end # rubocop:enable Style/ClassVars
 end

@@ -24,12 +24,17 @@ describe Darlingtonia::Parser do
             end
           end
         end
+
+        class NestedParser < FakeParser; end
       end
 
-      after(:context) { Object.send(:remove_const, :FakeParser) }
+      after(:context) do
+        Object.send(:remove_const, :FakeParser)
+        Object.send(:remove_const, :NestedParser)
+      end
 
       it 'returns an importer instance' do
-        expect(described_class.for(file: file)).to be_a FakeParser
+        expect(described_class.for(file: file)).to be_a NestedParser
       end
     end
   end
