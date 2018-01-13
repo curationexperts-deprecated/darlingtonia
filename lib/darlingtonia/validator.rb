@@ -40,7 +40,7 @@ module Darlingtonia
     # @return [Enumerator<Error>] a collection of errors found in validation
     def validate(parser:)
       run_validation(parser: parser).tap do |errors|
-        errors.each { |error| error_stream << error }
+        errors.map { |error| error_stream << error }
       end
     end
     # rubocop:enable Lint/UnusedMethodArgument
@@ -52,7 +52,7 @@ module Darlingtonia
       #
       # rubocop:disable Lint/UnusedMethodArgument
       def run_validation(parser:)
-        []
+        [].to_enum
       end
   end
 end
