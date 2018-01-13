@@ -29,7 +29,7 @@ module Darlingtonia
     def initialize(file:, **_opts)
       self.file     = file
       @errors       = []
-      @validators ||= []
+      @validators ||= self.class::DEFAULT_VALIDATORS
 
       yield self if block_given?
     end

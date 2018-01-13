@@ -3,5 +3,7 @@
 require 'spec_helper'
 
 describe Darlingtonia::Validator do
-  it_behaves_like 'a Darlingtonia::Validator'
+  it_behaves_like 'a Darlingtonia::Validator' do
+    let(:valid_parser) { :any }
+  end
 end
