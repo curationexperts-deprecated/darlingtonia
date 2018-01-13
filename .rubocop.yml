@@ -4,6 +4,10 @@ inherit_gem:
 AllCops:
   TargetRubyVersion: 2.3
 
+Lint/HandleExceptions:
+  Exclude:
+    - 'spec/**/*'
+
 Metrics/BlockLength:
   Exclude:
     - 'spec/**/*'

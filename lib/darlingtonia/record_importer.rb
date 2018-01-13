@@ -3,11 +3,25 @@
 module Darlingtonia
   class RecordImporter
     ##
+    # @!attribute [rw] error_stream
+    #   @return [#<<]
+    attr_accessor :error_stream
+
+    ##
+    # @param error_stream [#<<]
+    def initialize(error_stream: STDOUT)
+      self.error_stream = error_stream
+    end
+
+    ##
     # @param record [ImportRecord]
     #
     # @return [void]
     def import(record:)
       import_type.create(record.attributes)
+    rescue RuntimeError => e
+      error_stream << e
+      raise e
     end
 
     def import_type
