@@ -4,7 +4,14 @@ require 'csv'
 
 module Darlingtonia
   ##
-  # A parser for CSV files
+  # A parser for CSV files. A single `InputRecord` is returned for each row
+  # parsed from the input.
+  #
+  # Validates the format of the CSV, generating a single error the file is
+  # malformed. This error gives the line number and a message for the first
+  # badly formatted row.
+  #
+  # @see CsvFormatValidator
   class CsvParser < Parser
     DEFAULT_VALIDATORS = [CsvFormatValidator.new].freeze
     EXTENSION = '.csv'
