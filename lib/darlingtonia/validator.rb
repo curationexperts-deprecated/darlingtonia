@@ -30,7 +30,7 @@ module Darlingtonia
 
     ##
     # @param error_stream [#<<]
-    def initialize(error_stream: STDOUT)
+    def initialize(error_stream: Darlingtonia.config.default_error_stream)
       self.error_stream = error_stream
     end
 
