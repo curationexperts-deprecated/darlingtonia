@@ -5,25 +5,27 @@ module Darlingtonia
   # A generic metadata mapper for input records
   #
   # Maps from hash accessor syntax (`['title']`) to method call dot syntax (`.title`)
-  class HashMapper
-    ##
-    # @!attribute [r] meadata
-    #   @return [Hash<String, String>]
-    attr_reader :metadata
-
+  #
+  # The fields provided by this mapper are dynamically determined by the fields
+  # available in the provided metadata hash.
+  #
+  # All field values are given as multi-valued arrays.
+  #
+  # @example
+  #   mapper = HashMapper.new
+  #   mapper.fields # => []
+  #
+  #   mapper.metadata = { title: 'Comet in Moominland', author: 'Tove Jansson' }
+  #   mapper.fields # => [:title, :author]
+  #   mapper.title  # => ['Comet in Moominland']
+  #   mapper.author # => ['Tove Jansson']
+  #
+  class HashMapper < MetadataMapper
     ##
     # @param meta [#to_h]
     # @return [Hash<String, String>]
     def metadata=(meta)
       @metadata = meta.to_h
-    end
-
-    ##
-    # @param name [Symbol]
-    #
-    # @return [Boolean]
-    def field?(name)
-      fields.include?(name)
     end
 
     ##
@@ -33,13 +35,10 @@ module Darlingtonia
       metadata.keys.map(&:to_sym)
     end
 
-    def method_missing(method_name, *args, &block)
-      return Array(metadata[method_name.to_s]) if fields.include?(method_name)
-      super
-    end
-
-    def respond_to_missing?(method_name, include_private = false)
-      field?(method_name) || super
+    ##
+    # @see MetadataMapper#map_field
+    def map_field(name)
+      Array(metadata[name.to_s])
     end
   end
 end
