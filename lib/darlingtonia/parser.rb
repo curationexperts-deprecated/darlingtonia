@@ -2,12 +2,38 @@
 
 module Darlingtonia
   ##
-  # A generic parser
+  # A generic parser.
   #
-  # @example
+  # `Parser` implementations provide a stream of `InputRecord`s, derived from an
+  # input object (`file`), through `Parser#records`. This method should be
+  # implemented efficiently for repeated access, generating records lazily if
+  # possible, and caching if appropriate.
+  #
+  # Input validation is handled by an array of `#validators`, which are run in
+  # sequence when `#validate` (or `#validate!`) is called. Errors caught in
+  # validation are accessible via `#errors`, and inputs generating errors result
+  # in `#valid? # => false`.
+  #
+  # A factory method `.for` is provided, and each implementation should
+  # provides a `.match?(**)` which returns `true` if the options passed
+  # indicate the parser can handle the given input. Parsers are checked for
+  # `#match?` in the reverse of load order (i.e. the most recently loaded
+  # `Parser` classes are given precedence).
+  #
+  # @example Getting a parser for a file input
   #   file = File.open('path/to/import/manifest.csv')
   #
   #   Parser.for(file: file).records
+  #
+  # @example Validating a parser
+  #   parser = Parser.for(file: invalid_input)
+  #
+  #   parser.valid?   # => true (always true before validation)
+  #   parser.validate # => false
+  #   parser.valid?   # => false
+  #   parser.errors   # => an array of Validation::Error-like structs
+  #
+  #   parser.validate! # ValidationError
   #
   # rubocop:disable Style/ClassVars
   class Parser
@@ -77,13 +103,13 @@ module Darlingtonia
     end
 
     ##
-    # @return [Boolean] true if the
+    # @return [Boolean] true if the file input is valid
     def valid?
       errors.empty?
     end
 
     ##
-    # @return [Boolean]
+    # @return [Boolean] true if the file input is valid
     def validate
       validators.each_with_object(errors) do |validator, errs|
         errs.concat(validator.validate(parser: self))
@@ -93,7 +119,8 @@ module Darlingtonia
     end
 
     ##
-    # @return [true]
+    # @return [true] always true, unless an error is raised.
+    #
     # @raise [ValidationError] if the file to parse is invalid
     def validate!
       validate || raise(ValidationError)
