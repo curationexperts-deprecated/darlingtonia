@@ -16,13 +16,13 @@ shared_examples 'a Darlingtonia::Validator' do
     end
 
     it 'gives an empty error collection for a valid parser' do
-      expect(validator.validate(parser: valid_parser)).to be_empty if
+      expect(validator.validate(parser: valid_parser)).not_to be_any if
         defined?(valid_parser)
     end
 
     context 'for an invalid parser' do
       it 'gives an non-empty error collection' do
-        expect(validator.validate(parser: invalid_parser)).not_to be_empty if
+        expect(validator.validate(parser: invalid_parser)).to be_any if
           defined?(invalid_parser)
       end
 
