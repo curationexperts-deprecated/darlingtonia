@@ -19,6 +19,8 @@ module Darlingtonia
     # @return [void]
     def import(record:)
       import_type.create(record.attributes)
+    rescue Faraday::ConnectionFailed, Ldp::HttpError => e
+      error_stream << e
     rescue RuntimeError => e
       error_stream << e
       raise e

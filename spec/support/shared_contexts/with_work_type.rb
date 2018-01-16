@@ -22,7 +22,7 @@ shared_context 'with a work type' do
   end
 
   after do
-    Object.send(:remove_const, :Hyrax)
-    Object.send(:remove_const, :Work)
+    Object.send(:remove_const, :Hyrax) if defined?(Hyrax)
+    Object.send(:remove_const, :Work)  if defined?(Work)
   end
 end

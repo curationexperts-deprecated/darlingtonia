@@ -21,6 +21,18 @@ describe Darlingtonia::RecordImporter, :clean do
         .by 1
     end
 
+    context 'when input record errors with LDP errors' do
+      let(:ldp_error) { Ldp::PreconditionFailed }
+
+      before { allow(record).to receive(:attributes).and_raise(ldp_error) }
+
+      it 'writes errors to the error stream (no reraise!)' do
+        expect { importer.import(record: record) }
+          .to change { error_stream }
+          .to contain_exactly(an_instance_of(ldp_error))
+      end
+    end
+
     context 'when input record errors unexpectedly' do
       let(:custom_error) { Class.new(RuntimeError) }
 
