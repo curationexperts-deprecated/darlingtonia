@@ -39,6 +39,7 @@ module Darlingtonia
   @configuration = Configuration.new
 
   require 'darlingtonia/version'
+  require 'darlingtonia/metadata_mapper'
   require 'darlingtonia/hash_mapper'
 
   require 'darlingtonia/importer'
