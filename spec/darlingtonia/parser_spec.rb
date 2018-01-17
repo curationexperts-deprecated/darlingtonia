@@ -17,7 +17,7 @@ describe Darlingtonia::Parser do
       before(:context) do
         ##
         # An importer that matches all types
-        class FakeParser < described_class
+        class MyFakeParser < described_class
           class << self
             def match?(**_opts)
               true
@@ -25,11 +25,11 @@ describe Darlingtonia::Parser do
           end
         end
 
-        class NestedParser < FakeParser; end
+        class NestedParser < MyFakeParser; end
       end
 
       after(:context) do
-        Object.send(:remove_const, :FakeParser)
+        Object.send(:remove_const, :MyFakeParser)
         Object.send(:remove_const, :NestedParser)
       end
 
