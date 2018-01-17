@@ -12,5 +12,14 @@ describe Darlingtonia do
         .from(STDOUT)
         .to(stream)
     end
+
+    it 'can set a default info stream' do
+      stream = []
+
+      expect { described_class.config { |c| c.default_info_stream = stream } }
+        .to change { described_class.config.default_info_stream }
+        .from(STDOUT)
+        .to(stream)
+    end
   end
 end

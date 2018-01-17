@@ -29,10 +29,13 @@ module Darlingtonia
     ##
     # @!attribute [rw] default_error_stream
     #   @return [#<<]
-    attr_accessor :default_error_stream
+    # @!attribute [rw] default_info_stream
+    #   @return [#<<]
+    attr_accessor :default_error_stream, :default_info_stream
 
     def initialize
       self.default_error_stream = STDOUT
+      self.default_info_stream  = STDOUT
     end
   end
 

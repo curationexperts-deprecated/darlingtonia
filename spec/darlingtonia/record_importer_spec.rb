@@ -3,8 +3,12 @@
 require 'spec_helper'
 
 describe Darlingtonia::RecordImporter, :clean do
-  subject(:importer) { described_class.new(error_stream: error_stream) }
+  subject(:importer) do
+    described_class.new(error_stream: error_stream, info_stream: info_stream)
+  end
+
   let(:error_stream) { [] }
+  let(:info_stream)  { [] }
   let(:record)       { Darlingtonia::InputRecord.new }
 
   it 'raises an error when no work type exists' do
@@ -19,6 +23,12 @@ describe Darlingtonia::RecordImporter, :clean do
       expect { importer.import(record: record) }
         .to change { Work.count }
         .by 1
+    end
+
+    it 'writes to the info stream before and after create' do
+      expect { importer.import(record: record) }
+        .to change { info_stream }
+        .to contain_exactly(/^Creating record/, /^Record created/)
     end
 
     context 'when input record errors with LDP errors' do
