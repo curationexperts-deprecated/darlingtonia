@@ -1,3 +1,22 @@
+0.2.0 - Wed Jan 17, 2018
+------------------------
+
+Error & info streams.
+
+  - Extend `Parser` subclasses to define `DEFAULT_VALIDATORS` to hard code
+    a default validator list.
+  - Support streaming errors from `Validator` to an error stream (`#<<`).
+  - Add configuration at `Darlingtonia.config` to set `default_error_stream`.
+  - Introduce `MetadataMapper` as a base `Mapper` class.
+  - Add error stream for `RuntimeError` to `RecordImporter`.
+  - Add error stream handling for `Ldp::HTTPError` and `Faraday::Connection`
+    errors to `RecordImporter`.
+  - Add `info_stream`, `default_info_stream` (`#<<`) and notifications for
+    before/after record import.
+  - Improve validator documentation.
+  - Add `TitleValidator` to validate presence of titles in parsed
+    `InputRecord`s.
+
 0.1.1 - Fri Jan 12, 2018
 ------------------------
 
