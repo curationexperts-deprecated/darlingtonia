@@ -49,6 +49,7 @@ module Darlingtonia
 
   require 'darlingtonia/validator'
   require 'darlingtonia/validators/csv_format_validator'
+  require 'darlingtonia/validators/title_validator'
 
   require 'darlingtonia/parser'
   require 'darlingtonia/parsers/csv_parser'
