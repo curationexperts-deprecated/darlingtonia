@@ -1,3 +1,14 @@
+0.3.0 - Fri Jan 19, 2018
+------------------------
+
+Representative files.
+
+  - `ImportRecord` now passes through a `#representative_file` to its mapper,
+    returning `nil` if the mapper does not provide such a method.
+  - `CsvParser#records` now returns an empty record collection if it is given
+    invalid CSV input. This allows cleaner handling in other validations and
+    imports.
+
 0.2.0 - Wed Jan 17, 2018
 ------------------------
 
