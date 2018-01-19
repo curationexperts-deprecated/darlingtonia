@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'spec_helper'
+
 describe Darlingtonia::InputRecord do
   subject(:record) { described_class.from(metadata: metadata) }
 
@@ -16,6 +18,30 @@ describe Darlingtonia::InputRecord do
   describe '#attributes' do
     it 'handles basic text fields' do
       expect(record.attributes).to include(:title, :description)
+    end
+
+    it 'does not include representative_file' do
+      expect(record.attributes).not_to include(:representative_file)
+    end
+  end
+
+  describe '#representative_file' do
+    it 'is nil if mapper does not provide a representative file' do
+      expect(record.representative_file).to be_nil
+    end
+
+    context 'when mapper provides representative_file' do
+      let(:representative_file) { :A_DUMMY_FILE }
+
+      before do
+        allow(record.mapper)
+          .to receive(:representative_file)
+          .and_return(representative_file)
+      end
+
+      it 'is the file from the mapper' do
+        expect(record.representative_file).to eql representative_file
+      end
     end
   end
 
