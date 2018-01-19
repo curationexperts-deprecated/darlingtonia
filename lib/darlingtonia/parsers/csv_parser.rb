@@ -38,6 +38,8 @@ module Darlingtonia
       CSV.parse(file.read, headers: true).each do |row|
         yield InputRecord.from(metadata: row)
       end
+    rescue CSV::MalformedCSVError
+      []
     end
   end
 end

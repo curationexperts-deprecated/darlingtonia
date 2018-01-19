@@ -34,16 +34,26 @@ EOS
   end
 
   describe '#records' do
-    include_context 'with content'
+    context 'with valid content' do
+      include_context 'with content'
 
-    it 'has the correct titles' do
-      expect(parser.records.map(&:title))
-        .to contain_exactly(['The Moomins and the Great Flood'],
-                            ['Comet in Moominland'])
+      it 'has the correct titles' do
+        expect(parser.records.map(&:title))
+          .to contain_exactly(['The Moomins and the Great Flood'],
+                              ['Comet in Moominland'])
+      end
+
+      it 'has correct other fields' do
+        expect(parser.records.map(&:date)).to contain_exactly(['1945'], ['1946'])
+      end
     end
 
-    it 'has correct other fields' do
-      expect(parser.records.map(&:date)).to contain_exactly(['1945'], ['1946'])
+    context 'with invalid file' do
+      let(:file) { File.open('spec/fixtures/bad_example.csv') }
+
+      it 'is empty' do
+        expect(parser.records.to_a).to be_empty
+      end
     end
   end
 
