@@ -1,3 +1,8 @@
+1.0.0 - Mon Jan 29, 2018
+------------------------
+
+No changes; this release commits to the API present in v0.3.0.
+
 0.3.0 - Fri Jan 19, 2018
 ------------------------
 
