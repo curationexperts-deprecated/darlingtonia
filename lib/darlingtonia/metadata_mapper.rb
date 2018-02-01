@@ -36,7 +36,6 @@ module Darlingtonia
   #
   #   mapper.fields.map { |field| mapper.send(field) }
   #
-  #
   # @see ImportRecord#attributes for the canonical usage of a `MetadataMapper`.
   # @see HashMapper for an example implementation with dynamically generated
   #   fields

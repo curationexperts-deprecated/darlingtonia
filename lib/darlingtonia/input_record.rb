@@ -1,6 +1,11 @@
 # frozen_string_literal: true
 
 module Darlingtonia
+  ##
+  # @example Building an importer with the factory
+  #   record = InputRecord.from({some: :metadata}, mapper: MyMapper.new)
+  #   record.some # => :metadata
+  #
   class InputRecord
     ##
     # @!attribute [rw] mapper
@@ -8,13 +13,18 @@ module Darlingtonia
     attr_accessor :mapper
 
     ##
-    # @param metadata [Object]
-    # @param mapper   [#map_fields]
+    # @param mapper [#map_fields]
     def initialize(mapper: HashMapper.new)
       self.mapper = mapper
     end
 
     class << self
+      ##
+      # @param metadata [Object]
+      # @param mapper  [#map_fields]
+      #
+      # @return [InputRecord] an input record mapping metadata with the given
+      #   mapper
       def from(metadata:, mapper: HashMapper.new)
         mapper.metadata = metadata
         new(mapper: mapper)

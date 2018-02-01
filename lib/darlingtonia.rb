@@ -3,12 +3,24 @@
 require 'active_fedora'
 
 ##
-# Bulk object import for Hyrax.
+# Bulk object import for Samvera.
+#
+# == Importers
+#
+# {Importer} is the core class for importing records using {Darlingtonia}.
+# Importers accept a {Parser} and (optionally) a custom {RecordImporter}, and
+# process each record in the given parser (see: {Parser#records}).
+#
+# @example Importing in bulk from a file
+#   parser = Darlingtonia::Parser.for(file: File.new('path/to/file.ext'))
+#
+#   Darlingtonia::Importer.new(parser: parser).import if parser.validate
 #
 # @example A basic configuration
 #   Darlingtonia.config do |config|
-#     # error streams must respond to `#<<`
+#     # error/info streams must respond to `#<<`
 #     config.default_error_stream = MyErrorStream.new
+#     config.default_info_stream  = STDOUT
 #   end
 #
 module Darlingtonia
