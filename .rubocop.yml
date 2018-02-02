@@ -17,3 +17,4 @@ Metrics/BlockLength:
 RSpec/DescribeClass:
   Exclude:
     - 'spec/integration/**/*'
+    - 'spec/*_spec.rb'
