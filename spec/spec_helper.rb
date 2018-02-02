@@ -4,8 +4,10 @@ require 'pry' unless ENV['CI']
 ENV['environment'] ||= 'test'
 
 require 'bundler/setup'
+require 'active_fedora'
 require 'active_fedora/cleaner'
 require 'darlingtonia'
+require 'darlingtonia/spec'
 
 Dir['./spec/support/**/*.rb'].each { |f| require f }
 
