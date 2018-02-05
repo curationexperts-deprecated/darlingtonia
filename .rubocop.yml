@@ -7,11 +7,14 @@ AllCops:
 Lint/HandleExceptions:
   Exclude:
     - 'spec/**/*'
+    - 'lib/darlingtonia/spec/**/*'
 
 Metrics/BlockLength:
   Exclude:
     - 'spec/**/*'
+    - 'lib/darlingtonia/spec/**/*'
 
 RSpec/DescribeClass:
   Exclude:
     - 'spec/integration/**/*'
+    - 'spec/*_spec.rb'

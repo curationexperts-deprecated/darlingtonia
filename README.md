@@ -36,3 +36,9 @@ cd darlingtonia
 bundle install
 bundle exec rake ci
 ```
+
+### RSpec Support
+
+This gem ships with RSpec shared examples and other support tools intended to ease testing and ensure
+interoperability of client code. These can be included by adding `require 'darlingtonia/spec'` to a
+`spec_helper.rb` or `rails_helper.rb` file in your application's test suite.

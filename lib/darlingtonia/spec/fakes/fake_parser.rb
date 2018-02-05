@@ -14,8 +14,6 @@ class FakeParser < Darlingtonia::Parser
   end
 end
 
-require 'support/shared_examples/a_parser'
-
 # rubocop:disable RSpec/FilePath
 describe FakeParser do
   it_behaves_like 'a Darlingtonia::Parser' do
