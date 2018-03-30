@@ -1,3 +1,10 @@
+1.1.0 - Fri Mar 30, 2018
+------------------------
+
+Formatted message stream.
+
+  - Adds a formatted message stream to wrap other streams in a formatter.
+
 1.0.0 - Mon Jan 29, 2018
 ------------------------
 
