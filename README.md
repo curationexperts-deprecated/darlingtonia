@@ -21,9 +21,12 @@ with your `Hyrax` application. You need to provide a `Parser` (out of the box, w
 import with `CsvParser`).
 
 ```ruby
-parser = Darlingtonia::CsvParser.new(file: File.open('path/to/import.csv'))
+file = File.open('path/to/import.csv')
+parser = Darlingtonia::CsvParser.new(file: file)
 
 Darlingtonia::Importer.new(parser: parser).import
+
+file.close # unless a block is passed to File.open, the file must be explicitly closed
 ```
 
 Development
