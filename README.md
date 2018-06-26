@@ -3,7 +3,7 @@ Darlingtonia
 
 [![Yard Docs](http://img.shields.io/badge/yard-docs-blue.svg)](http://www.rubydoc.info/gems/darlingtonia)
 
-Object import for Hyrax. See the [API documentation](http://www.rubydoc.info/gems/hyrax-spec) for more
+Object import for Hyrax. See the [API documentation](https://www.rubydoc.info/gems/darlingtonia) for more
 information.
 
 Usage
