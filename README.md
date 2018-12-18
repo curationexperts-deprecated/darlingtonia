@@ -1,6 +1,6 @@
 Darlingtonia
 ============
-
+[![Build Status](https://travis-ci.org/curationexperts/darlingtonia.svg?branch=master)](https://travis-ci.org/curationexperts/darlingtonia)
 [![Yard Docs](http://img.shields.io/badge/yard-docs-blue.svg)](http://www.rubydoc.info/gems/darlingtonia)
 
 Object import for Hyrax. See the [API documentation](http://www.rubydoc.info/gems/hyrax-spec) for more
