@@ -25,7 +25,7 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'hyrax-spec',     '~> 0.2'
   gem.add_development_dependency 'rspec',          '~> 3.6'
   gem.add_development_dependency 'coveralls',      '~> 0.8'
-  gem.add_development_dependency 'solr_wrapper',   '~> 0.3'
+  gem.add_development_dependency 'solr_wrapper',   '~> 2.1'
   gem.add_development_dependency 'fcrepo_wrapper', '~> 0.9'
 
   gem.files         = `git ls-files`.split("\n")
