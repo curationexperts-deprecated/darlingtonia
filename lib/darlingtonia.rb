@@ -54,6 +54,7 @@ module Darlingtonia
   require 'darlingtonia/version'
   require 'darlingtonia/metadata_mapper'
   require 'darlingtonia/hash_mapper'
+  require 'darlingtonia/hyrax_basic_metadata_mapper'
 
   require 'darlingtonia/importer'
   require 'darlingtonia/record_importer'

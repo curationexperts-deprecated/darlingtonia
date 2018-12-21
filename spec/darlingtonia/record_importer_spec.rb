@@ -17,6 +17,7 @@ describe Darlingtonia::RecordImporter, :clean do
   end
 
   context 'with a registered work type' do
+    load File.expand_path("../../support/shared_contexts/with_work_type.rb", __FILE__)
     include_context 'with a work type'
 
     it 'creates a work for record' do

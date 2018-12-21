@@ -3,9 +3,12 @@
 shared_context 'with a work type' do
   # A work type must be defined for the default `RecordImporter` to save objects
   before do
+    load './spec/support/hyrax/core_metadata.rb'
+    load './spec/support/hyrax/basic_metadata.rb'
+
     class Work < ActiveFedora::Base
-      property :title,       predicate: ::RDF::URI('http://example.com/title')
-      property :description, predicate: ::RDF::URI('http://example.com/description')
+      include ::Hyrax::CoreMetadata
+      include ::Hyrax::BasicMetadata
     end
 
     module Hyrax
