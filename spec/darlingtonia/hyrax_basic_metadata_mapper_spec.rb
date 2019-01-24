@@ -19,12 +19,16 @@ describe Darlingtonia::HyraxBasicMetadataMapper do
      :related_url, :bibliographic_citation, :source]
   end
 
+  let(:tenejo_fields) do
+    [:visibility, :file_attachments, :representative_media, :thumbnail, :rendering]
+  end
+
   it_behaves_like 'a Darlingtonia::Mapper' do
     let(:metadata) do
       { title: ['A Title for a Record'],
         my_custom_field: ['This gets ignored'] }
     end
-    let(:expected_fields) { core_fields + basic_fields }
+    let(:expected_fields) { core_fields + basic_fields + tenejo_fields }
   end
 
   context 'with metadata, but some missing fields' do

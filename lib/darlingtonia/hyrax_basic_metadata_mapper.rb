@@ -15,7 +15,7 @@ module Darlingtonia
     ##
     # @return [Enumerable<Symbol>] The fields the mapper can process.
     def fields
-      core_fields + basic_fields
+      core_fields + basic_fields + [:visibility, :file_attachments, :representative_media, :thumbnail, :rendering]
     end
 
     # Properties defined with `multiple: false` in
@@ -43,6 +43,10 @@ module Darlingtonia
 
     def import_url
       metadata['import_url']
+    end
+
+    def visibility
+      metadata['visibility']
     end
 
     ##
