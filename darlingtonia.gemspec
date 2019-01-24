@@ -14,7 +14,6 @@ Gem::Specification.new do |gem|
   gem.files         = %w[AUTHORS CHANGELOG.md README.md LICENSE] +
                       Dir.glob('lib/**/*.rb')
   gem.require_paths = %w[lib]
-  gem.has_rdoc      = false
 
   gem.required_ruby_version = '>= 2.3.4'
 
