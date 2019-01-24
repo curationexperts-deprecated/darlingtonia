@@ -9,12 +9,12 @@ information.
 Usage
 -----
 
-In your project's `Gemfile`, add: `gem 'darlingtonia', '~> 0.1'`, then do `bundle install`.
+In your project's `Gemfile`, add: `gem 'darlingtonia', '~> 2.0'`, then do `bundle install`.
 
 
 This software is primarily intended for use in a [Hyrax](https://github.com/samvera/hyrax) project.
 However, its dependency on `hyrax` is kept strictly optional so most of its code can be reused to
-good effect elsewhere.
+good effect elsewhere. Note: As of release 2.0, `HyraxBasicMetadataMapper` will be the default mapper.
 
 To do a basic Hyrax import, first ensure that a [work type is registered](http://www.rubydoc.info/github/samvera/hyrax/Hyrax/Configuration#register_curation_concern-instance_method)
 with your `Hyrax` application. You need to provide a `Parser` (out of the box, we support simple CSV
