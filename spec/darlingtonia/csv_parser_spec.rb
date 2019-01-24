@@ -11,7 +11,7 @@ describe Darlingtonia::CsvParser do
   shared_context 'with content' do
     let(:csv_content) do
       <<-EOS
-title,description,date
+title,description,date_created
 The Moomins and the Great Flood,"The Moomins and the Great Flood (Swedish: Småtrollen och den stora översvämningen, literally The Little Trolls and the Great Flood) is a book written by Finnish author Tove Jansson in 1945, during the end of World War II. It was the first book to star the Moomins, but is often seen as a prelude to the main Moomin books, as most of the main characters are introduced in the next book.",1945
 Comet in Moominland,"Comet in Moominland is the second in Tove Jansson's series of Moomin books. Published in 1946, it marks the first appearance of several main characters, like Snufkin and the Snork Maiden.",1946
 EOS
@@ -44,7 +44,7 @@ EOS
       end
 
       it 'has correct other fields' do
-        expect(parser.records.map(&:date)).to contain_exactly(['1945'], ['1946'])
+        expect(parser.records.map(&:date_created)).to contain_exactly(['1945'], ['1946'])
       end
     end
 
