@@ -7,7 +7,7 @@ shared_context 'with a work type' do
     load './spec/support/hyrax/basic_metadata.rb'
 
     class Work < ActiveFedora::Base
-      attr_accessor :visibility, :file_attachments, :representative_media, :thumbnail, :rendering
+      attr_accessor :visibility
       include ::Hyrax::CoreMetadata
       include ::Hyrax::BasicMetadata
     end

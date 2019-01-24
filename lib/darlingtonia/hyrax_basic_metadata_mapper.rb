@@ -15,7 +15,7 @@ module Darlingtonia
     ##
     # @return [Enumerable<Symbol>] The fields the mapper can process.
     def fields
-      core_fields + basic_fields + [:visibility, :file_attachments, :representative_media, :thumbnail, :rendering]
+      core_fields + basic_fields + [:visibility]
     end
 
     # Properties defined with `multiple: false` in

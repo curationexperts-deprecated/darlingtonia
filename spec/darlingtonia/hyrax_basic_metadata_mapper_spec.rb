@@ -20,7 +20,7 @@ describe Darlingtonia::HyraxBasicMetadataMapper do
   end
 
   let(:tenejo_fields) do
-    [:visibility, :file_attachments, :representative_media, :thumbnail, :rendering]
+    [:visibility]
   end
 
   it_behaves_like 'a Darlingtonia::Mapper' do
