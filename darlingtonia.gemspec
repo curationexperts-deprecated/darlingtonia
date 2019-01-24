@@ -7,7 +7,7 @@ Gem::Specification.new do |gem|
   gem.name          = 'darlingtonia'
   gem.version       = Darlingtonia::VERSION
   gem.platform      = Gem::Platform::RUBY
-  gem.authors       = ['Tom Johnson', 'Data Curation Experts']
+  gem.authors       = ['Data Curation Experts']
   gem.email         = ['administrator@curationexperts.com']
   gem.summary       = 'Hyrax importers.'
   gem.license       = 'Apache-2.0'

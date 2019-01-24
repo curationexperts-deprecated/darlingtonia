@@ -1,3 +1,8 @@
+1.2.3 - Thu Jan 24, 2019
+------------------------
+
+Update active_fedora version requirement to bypass a critical bug.
+
 1.1.0 - Fri Mar 30, 2018
 ------------------------
 
