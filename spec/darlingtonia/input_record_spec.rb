@@ -12,7 +12,7 @@ describe Darlingtonia::InputRecord do
 
   it 'has metadata and a mapper' do
     is_expected
-      .to have_attributes(mapper: an_instance_of(Darlingtonia::HashMapper))
+      .to have_attributes(mapper: an_instance_of(Darlingtonia::HyraxBasicMetadataMapper))
   end
 
   describe '#attributes' do

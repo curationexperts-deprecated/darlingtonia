@@ -25,7 +25,7 @@ module Darlingtonia
       #
       # @return [InputRecord] an input record mapping metadata with the given
       #   mapper
-      def from(metadata:, mapper: HashMapper.new)
+      def from(metadata:, mapper: HyraxBasicMetadataMapper.new)
         mapper.metadata = metadata
         new(mapper: mapper)
       end
