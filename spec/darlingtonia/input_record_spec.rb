@@ -10,6 +10,10 @@ describe Darlingtonia::InputRecord do
       'description' => 'A book about moomins.' }
   end
 
+  it 'defaults to a Hyrax Mapper' do
+    expect(described_class.new).to have_attributes(mapper: an_instance_of(Darlingtonia::HyraxBasicMetadataMapper))
+  end
+
   it 'has metadata and a mapper' do
     is_expected
       .to have_attributes(mapper: an_instance_of(Darlingtonia::HyraxBasicMetadataMapper))

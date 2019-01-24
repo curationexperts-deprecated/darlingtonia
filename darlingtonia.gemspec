@@ -17,7 +17,7 @@ Gem::Specification.new do |gem|
 
   gem.required_ruby_version = '>= 2.3.4'
 
-  gem.add_dependency 'active-fedora', '>= 12.0.2', '<= 12.99'
+  gem.add_dependency 'active-fedora', '>= 11.5.2'
 
   gem.add_development_dependency 'yard',           '~> 0.9'
   gem.add_development_dependency 'bixby',          '~> 0.3'
@@ -26,6 +26,7 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'coveralls',      '~> 0.8'
   gem.add_development_dependency 'solr_wrapper',   '~> 2.1'
   gem.add_development_dependency 'fcrepo_wrapper', '~> 0.9'
+  gem.add_development_dependency 'byebug'
 
   gem.files         = `git ls-files`.split("\n")
   gem.test_files    = `git ls-files -- {spec}/*`.split("\n")

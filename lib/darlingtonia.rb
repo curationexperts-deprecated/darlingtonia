@@ -58,6 +58,7 @@ module Darlingtonia
 
   require 'darlingtonia/importer'
   require 'darlingtonia/record_importer'
+  require 'darlingtonia/hyrax_record_importer'
 
   require 'darlingtonia/input_record'
 
