@@ -2,10 +2,10 @@
 
 <table width="100%">
 <tr><td>
-<img alt="Darlingtonia californica image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Darlingtonia_californica_ne1.JPG/220px-Darlingtonia_californica_ne1.JPG">
+<img alt="Darlingtonia californica image" src="https://upload.wikimedia.org/wikipedia/commons/2/20/Darlingtonia_californica_ne1.JPG" width="500px">
 </td><td>
-Object import for Hyrax. See the [API documentation](https://www.rubydoc.info/gems/darlingtonia) for more
-information. See the [Getting Started](https://curationexperts.github.io/darlingtonia/) guide for a gentle introduction.
+Object import for Hyrax. See the <a href="https://www.rubydoc.info/gems/darlingtonia">API documentation</a> for more
+information. See the <a href="https://curationexperts.github.io/darlingtonia/">Getting Started</a> guide for a gentle introduction.
 <br/><br/>
 <a href="https://en.wikipedia.org/wiki/Darlingtonia_californica"><em>Darlingtonia californica</em></a>,
 also called the California pitcher plant, cobra lily, or cobra plant, is a species of carnivorous plant, the sole member of the genus <i>Darlingtonia</i> in the family <i>Sarraceniaceae</i>. It is native to Northern California and Oregon growing in bogs and seeps with cold running water.
@@ -18,22 +18,12 @@ also called the California pitcher plant, cobra lily, or cobra plant, is a speci
 </td></tr>
 </table>
 
-
-
-
-Usage
------
+## Usage
 
 In your project's `Gemfile`, add: `gem 'darlingtonia'`, then run `bundle install`.
 
-
-This software is primarily intended for use in a [Hyrax](https://github.com/samvera/hyrax) project.
-However, its dependency on `hyrax` is kept strictly optional so most of its code can be reused to
-good effect elsewhere. Note: As of release 2.0, `HyraxBasicMetadataMapper` will be the default mapper.
-
 To do a basic Hyrax import, first ensure that a [work type is registered](http://www.rubydoc.info/github/samvera/hyrax/Hyrax/Configuration#register_curation_concern-instance_method)
-with your `Hyrax` application. You need to provide a `Parser` (out of the box, we support simple CSV
-import with `CsvParser`). Write a class like this:
+with your `Hyrax` application. Then write a class like this:
 
 ```ruby
 require 'darlingtonia'
@@ -52,8 +42,15 @@ class MyImporter
 end
 ```
 
-Development
------------
+## Customizing
+To input any kind of file other than CSV, you need to provide a `Parser` (out of the box, we support simple CSV import with `CsvParser`). We will be writing guides about
+how to support custom mappers (for metadata outside of Hyrax's core and basic metadata fields).
+
+This software is primarily intended for use in a [Hyrax](https://github.com/samvera/hyrax) project.
+However, its dependency on `hyrax` is kept strictly optional so most of its code can be reused to
+good effect elsewhere. Note: As of release 2.0, `HyraxBasicMetadataMapper` will be the default mapper.
+
+## Development
 
 ```sh
 git clone https://github.com/curationexperts/darlingtonia
