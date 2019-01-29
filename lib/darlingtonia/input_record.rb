@@ -14,7 +14,7 @@ module Darlingtonia
 
     ##
     # @param mapper [#map_fields]
-    def initialize(mapper: HashMapper.new)
+    def initialize(mapper: HyraxBasicMetadataMapper.new)
       self.mapper = mapper
     end
 

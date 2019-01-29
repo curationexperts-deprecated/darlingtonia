@@ -26,6 +26,11 @@ Metrics/MethodLength:
   Exclude:
     - 'spec/support/hyrax/basic_metadata.rb'
     - 'lib/darlingtonia/hyrax_basic_metadata_mapper.rb'
+    - lib/darlingtonia/hyrax_record_importer.rb
+
+Naming/AccessorMethodName:
+  Exclude:
+    - lib/darlingtonia/hyrax_record_importer.rb
 
 RSpec/DescribeClass:
   Exclude:

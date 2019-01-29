@@ -8,6 +8,7 @@ require 'active_fedora'
 require 'active_fedora/cleaner'
 require 'darlingtonia'
 require 'darlingtonia/spec'
+require 'byebug'
 
 RSpec.configure do |config|
   config.filter_run focus: true

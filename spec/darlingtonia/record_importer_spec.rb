@@ -9,7 +9,14 @@ describe Darlingtonia::RecordImporter, :clean do
 
   let(:error_stream) { [] }
   let(:info_stream)  { [] }
-  let(:record)       { Darlingtonia::InputRecord.new }
+  let(:record)       { Darlingtonia::InputRecord.from(metadata: metadata) }
+  let(:metadata) do
+    {
+      'title' => 'A Title',
+      'language' => 'English',
+      'visibility' => 'open'
+    }
+  end
 
   it 'raises an error when no work type exists' do
     expect { importer.import(record: record) }
