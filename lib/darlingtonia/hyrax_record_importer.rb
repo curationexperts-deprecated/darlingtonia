@@ -8,12 +8,17 @@ module Darlingtonia
     # @!attribute [rw] creator
     #   @return [User]
     attr_accessor :creator
+    attr_accessor :collection_id
 
     ##
     # @param creator   [User]
-    def initialize(*)
+    def initialize(error_stream: Darlingtonia.config.default_error_stream,
+                   info_stream: Darlingtonia.config.default_info_stream,
+                   collection_id: nil)
       self.creator = ::User.find_or_create_system_user(DEFAULT_CREATOR_KEY)
-      super
+      self.collection_id = collection_id
+
+      super(error_stream: error_stream, info_stream: info_stream)
     end
 
     ##
@@ -81,7 +86,9 @@ module Darlingtonia
         set_depositor(record)
         uploaded_files = { uploaded_files: create_upload_files(record) }
         created    = import_type.new
+
         attributes = record.attributes.merge(uploaded_files)
+        attributes = attributes.merge(member_of_collection_ids: [collection_id]) if collection_id
 
         actor_env  = Hyrax::Actors::Environment.new(created,
                                                     ::Ability.new(@creator),

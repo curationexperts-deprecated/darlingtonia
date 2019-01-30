@@ -12,6 +12,7 @@ Lint/HandleExceptions:
 Metrics/AbcSize:
   Exclude:
     - 'spec/support/hyrax/basic_metadata.rb'
+    - 'lib/darlingtonia/hyrax_record_importer.rb'
 
 Metrics/BlockLength:
   Exclude:
