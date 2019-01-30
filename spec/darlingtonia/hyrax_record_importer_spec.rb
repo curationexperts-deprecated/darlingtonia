@@ -10,6 +10,20 @@ describe Darlingtonia::HyraxRecordImporter, :clean do
   let(:info_stream)  { [] }
   let(:record)       { Darlingtonia::InputRecord.from(metadata: metadata) }
 
+  context 'collection id' do
+    subject(:importer) do
+      described_class.new(collection_id: collection_id)
+    end
+    let(:collection_id) { '123' }
+
+    load File.expand_path("../../support/shared_contexts/with_work_type.rb", __FILE__)
+    include_context 'with a work type'
+
+    it 'can have a collection id' do
+      expect(importer.collection_id).to eq collection_id
+    end
+  end
+
   context 'with no attached files' do
     let(:metadata) do
       {
