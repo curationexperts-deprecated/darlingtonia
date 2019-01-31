@@ -51,11 +51,14 @@ describe Darlingtonia::HyraxRecordImporter, :clean do
         'title' => 'A Title',
         'language' => 'English',
         'visibility' => 'open',
-        'files' => 'darlingtonia.png|~|darlingtonia.png'
+        'files' => 'darlingtonia.png|~|cat.png'
       }
     end
     load File.expand_path("../../support/shared_contexts/with_work_type.rb", __FILE__)
     include_context 'with a work type'
+    it 'finds a file even if it is in a subdirectory' do
+      expect(importer.find_file_path('cat.png')).to eq "#{ENV['IMPORT_PATH']}/animals/cat.png"
+    end
     it 'creates a work for record' do
       expect { importer.import(record: record) }
         .to change { Work.count }

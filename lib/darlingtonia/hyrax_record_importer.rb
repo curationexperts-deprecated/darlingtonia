@@ -68,12 +68,21 @@ module Darlingtonia
 
       uploaded_file_ids = []
       files_to_attach.each do |filename|
-        file = File.open(Pathname.new(file_attachments_path).join(filename))
+        file = File.open(find_file_path(filename))
         uploaded_file = Hyrax::UploadedFile.create(user: @creator, file: file)
         uploaded_file_ids << uploaded_file.id
         file.close
       end
       uploaded_file_ids
+    end
+
+    ##
+    # Within the directory specified by ENV['IMPORT_PATH'], find the first
+    # instance of a file matching the given filename.
+    # @param [String] filename
+    # @return [String] a full pathname to the found file
+    def find_file_path(filename)
+      Dir.glob("#{ENV['IMPORT_PATH']}/**/#{filename}").first
     end
 
     private

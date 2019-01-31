@@ -42,6 +42,10 @@ class MyImporter
 end
 ```
 
+You can find [an example csv file for import to Hyrax](https://github.com/curationexperts/darlingtonia/blob/master/spec/fixtures/hyrax/example.csv) in the fixtures directory. Files for attachment should have the filename in a column
+with a heading of `files`, and the location of the files should be specified via an
+environment variables called `IMPORT_PATH`. If `IMPORT_PATH` is not set, `HyraxRecordImporter` will look in `/opt/data` by default.
+
 ## Customizing
 To input any kind of file other than CSV, you need to provide a `Parser` (out of the box, we support simple CSV import with `CsvParser`). We will be writing guides about
 how to support custom mappers (for metadata outside of Hyrax's core and basic metadata fields).
