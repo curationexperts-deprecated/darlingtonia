@@ -37,31 +37,31 @@ module Darlingtonia
     # Hyrax should return a single value instead of
     # an Array of values.
     def depositor
-      metadata['depositor']
+      single_value('depositor')
     end
 
     def date_uploaded
-      metadata['date_uploaded']
+      single_value('date_uploaded')
     end
 
     def date_modified
-      metadata['date_modified']
+      single_value('date_modified')
     end
 
     def label
-      metadata['label']
+      single_value('label')
     end
 
     def relative_path
-      metadata['relative_path']
+      single_value('relative_path')
     end
 
     def import_url
-      metadata['import_url']
+      single_value('import_url')
     end
 
     def visibility
-      metadata['visibility']
+      single_value('visibility')
     end
 
     ##
@@ -79,12 +79,30 @@ module Darlingtonia
     ##
     # @see MetadataMapper#map_field
     def map_field(name)
-      method_name = name
+      method_name = name.to_s
       method_name = CSV_HEADERS[name] if CSV_HEADERS.keys.include?(name)
-      Array(metadata[method_name.to_s]&.split(delimiter))
+      key = matching_header(method_name)
+      Array(metadata[key]&.split(delimiter))
     end
 
     protected
+
+      # Some fields should have single values instead
+      # of array values.
+      def single_value(field_name)
+        metadata[matching_header(field_name)]
+      end
+
+      # Lenient matching for headers.
+      # If the user has headers like:
+      #   'Title' or 'TITLE' or 'Title  '
+      # it should match the :title field.
+      def matching_header(field_name)
+        metadata.keys.find do |key|
+          next unless key
+          key.downcase.strip == field_name
+        end
+      end
 
       # Properties defined in Hyrax::CoreMetadata
       def core_fields

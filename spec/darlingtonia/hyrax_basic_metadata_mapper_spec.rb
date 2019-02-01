@@ -83,4 +83,64 @@ describe Darlingtonia::HyraxBasicMetadataMapper do
       expect(mapper.delimiter).to eq 'ಠ_ಠ'
     end
   end
+
+  describe 'lenient headers' do
+    context 'headers with capital letters' do
+      before { mapper.metadata = metadata }
+      let(:metadata) do
+        { 'Title' => 'A Title',
+          'Related URL' => 'http://example.com',
+          'Abstract or Summary' => 'desc1|~|desc2',
+          'visiBILITY' => 'open',
+          'Depositor' => 'someone@example.org',
+          'DATE_uploaded' => 'up date',
+          'DATE_modified' => 'mod date',
+          'laBel' => 'label',
+          'relative_PATH' => 'rel path',
+          'import_URL' => 'imp url' }
+      end
+
+      it 'matches the correct fields' do
+        expect(mapper.title).to eq ['A Title']
+        expect(mapper.related_url).to eq ['http://example.com']
+        expect(mapper.description).to eq ['desc1', 'desc2']
+        expect(mapper.creator).to eq []
+        expect(mapper.visibility).to eq 'open'
+        expect(mapper.depositor).to eq 'someone@example.org'
+        expect(mapper.date_uploaded).to eq 'up date'
+        expect(mapper.date_modified).to eq 'mod date'
+        expect(mapper.label).to eq 'label'
+        expect(mapper.relative_path).to eq 'rel path'
+        expect(mapper.import_url).to eq 'imp url'
+      end
+    end
+
+    context 'headers with sloppy whitespace' do
+      before { mapper.metadata = metadata }
+      let(:metadata) do
+        { ' Title ' => 'A Title',
+          " Related URL \n " => 'http://example.com',
+          ' visiBILITY ' => 'open' }
+      end
+
+      it 'matches the correct fields' do
+        expect(mapper.title).to eq ['A Title']
+        expect(mapper.related_url).to eq ['http://example.com']
+        expect(mapper.visibility).to eq 'open'
+      end
+    end
+
+    # When someone accidentally has too many commas in the CSV rows
+    context 'headers with a nil' do
+      before { mapper.metadata = metadata }
+      let(:metadata) do
+        { ' Title ' => 'A Title',
+          nil => nil }
+      end
+
+      it 'doesn\'t raise an error for missing fields' do
+        expect(mapper.depositor).to eq nil
+      end
+    end
+  end
 end
