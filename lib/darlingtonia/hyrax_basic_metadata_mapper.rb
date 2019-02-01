@@ -12,6 +12,21 @@ module Darlingtonia
   #
   # @see HashMapper Parent class for more info and examples.
   class HyraxBasicMetadataMapper < HashMapper
+    # If your CSV headers don't exactly match the
+    # the method name for the property's setter
+    # method, add a mapping here.
+    # Example: the method name is work.resource_type,
+    # but in the CSV file, the header is
+    # 'resource type' (without the underscore).
+    CSV_HEADERS = {
+      resource_type: 'resource type',
+      description: 'abstract or summary',
+      rights_statement: 'rights statement',
+      date_created: 'date created',
+      based_near: 'location',
+      related_url: 'related url'
+    }.freeze
+
     ##
     # @return [Enumerable<Symbol>] The fields the mapper can process.
     def fields
@@ -64,7 +79,9 @@ module Darlingtonia
     ##
     # @see MetadataMapper#map_field
     def map_field(name)
-      Array(metadata[name.to_s]&.split(delimiter))
+      method_name = name
+      method_name = CSV_HEADERS[name] if CSV_HEADERS.keys.include?(name)
+      Array(metadata[method_name.to_s]&.split(delimiter))
     end
 
     protected
