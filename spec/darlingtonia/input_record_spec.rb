@@ -6,8 +6,8 @@ describe Darlingtonia::InputRecord do
   subject(:record) { described_class.from(metadata: metadata) }
 
   let(:metadata) do
-    { 'title'       => 'Comet in Moominland',
-      'description' => 'A book about moomins.' }
+    { 'title' => 'Comet in Moominland',
+      'abstract or summary' => 'A book about moomins.' }
   end
 
   it 'defaults to a Hyrax Mapper' do
@@ -55,7 +55,7 @@ describe Darlingtonia::InputRecord do
     end
 
     it 'has methods for additional mapped metadata fields' do
-      expect(record.description).to contain_exactly metadata['description']
+      expect(record.description).to contain_exactly metadata['abstract or summary']
     end
 
     it 'knows it responds to methods for metadata fields' do
