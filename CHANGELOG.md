@@ -1,3 +1,10 @@
+2.0.0 - Mon Feb 4, 2019
+
+Assume our base use case is to import into Hyrax.
+  * Use HyraxRecordImporter as default
+  * Use HyraxMapper as default
+  * Add a getting started guide to the docs directory 
+
 1.2.3 - Thu Jan 24, 2019
 ------------------------
 
