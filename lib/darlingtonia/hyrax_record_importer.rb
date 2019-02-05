@@ -61,10 +61,8 @@ module Darlingtonia
     # @param [Darlingtonia::InputRecord]
     # @return [Array] an array of Hyrax::UploadedFile ids
     def create_upload_files(record)
-      file_attachment_filenames = record.mapper.metadata["files"]
-      return [] if file_attachment_filenames.nil? || file_attachment_filenames.empty?
-
-      files_to_attach = file_attachment_filenames.split(record.mapper.delimiter)
+      files_to_attach = record.mapper.files
+      return [] if files_to_attach.nil? || files_to_attach.empty?
 
       uploaded_file_ids = []
       files_to_attach.each do |filename|

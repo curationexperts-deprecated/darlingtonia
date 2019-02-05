@@ -64,6 +64,10 @@ module Darlingtonia
       single_value('visibility')
     end
 
+    def files
+      map_field('files')
+    end
+
     ##
     # @return [String] The delimiter that will be used to split a metadata field into separate values.
     # @example
