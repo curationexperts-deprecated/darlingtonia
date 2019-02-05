@@ -71,6 +71,27 @@ describe Darlingtonia::HyraxRecordImporter, :clean do
     end
   end
 
+  context 'with attached files, alternate capitalization and whitespace in "files" header' do
+    before do
+      ENV['IMPORT_PATH'] = File.expand_path('../fixtures/images', File.dirname(__FILE__))
+    end
+    let(:metadata) do
+      {
+        'title' => 'A Title',
+        'visibility' => 'open',
+        ' Files' => 'darlingtonia.png|~|cat.png'
+      }
+    end
+    load File.expand_path("../../support/shared_contexts/with_work_type.rb", __FILE__)
+    include_context 'with a work type'
+
+    it 'makes an uploaded file object for each file attachment' do
+      expect { importer.import(record: record) }
+        .to change { Hyrax::UploadedFile.count }
+        .by 2
+    end
+  end
+
   context 'with and without a depositor value' do
     context 'when there is no depositor set' do
       let(:metadata) do
