@@ -97,7 +97,7 @@ module Darlingtonia
         created    = import_type.new
 
         attributes = record.attributes.merge(uploaded_files)
-        attributes = attributes.merge(member_of_collection_ids: [collection_id]) if collection_id
+        attributes = attributes.merge(member_of_collections_attributes: { '0' => { id: collection_id } }) if collection_id
 
         actor_env  = Hyrax::Actors::Environment.new(created,
                                                     ::Ability.new(@creator),
