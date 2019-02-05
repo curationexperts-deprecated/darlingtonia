@@ -71,6 +71,15 @@ describe Darlingtonia::HyraxRecordImporter, :clean do
     end
   end
 
+  context 'with missing files' do
+    before do
+      ENV['IMPORT_PATH'] = File.expand_path('../fixtures/images', File.dirname(__FILE__))
+    end
+    it 'raises an exception' do
+      expect { importer.find_file_path('foo.png') }.to raise_exception(RuntimeError)
+    end
+  end
+
   context 'with and without a depositor value' do
     context 'when there is no depositor set' do
       let(:metadata) do
