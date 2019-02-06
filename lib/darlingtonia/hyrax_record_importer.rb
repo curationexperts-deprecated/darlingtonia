@@ -1,24 +1,40 @@
 # frozen_string_literal: true
+
 module Darlingtonia
   class HyraxRecordImporter < RecordImporter
     # TODO: Get this from Hyrax config
     DEFAULT_CREATOR_KEY = 'batchuser@example.com'
 
-    ##
-    # @!attribute [rw] creator
-    #   @return [User]
-    attr_accessor :creator
+    # @!attribute [rw] depositor
+    # @return [User]
+    attr_accessor :depositor
+
+    # @!attribute [rw] collection_id
+    # @return [String] The fedora ID for a Collection.
     attr_accessor :collection_id
 
-    ##
-    # @param creator   [User]
+    # @param attributes [Hash] Attributes that come
+    #        from the UI or importer rather than from
+    #        the CSV/mapper.
+    # @example
+    #   attributes: { collection_id: '123',
+    #                 depositor_id: '456' }
     def initialize(error_stream: Darlingtonia.config.default_error_stream,
                    info_stream: Darlingtonia.config.default_info_stream,
-                   collection_id: nil)
-      self.creator = ::User.find_or_create_system_user(DEFAULT_CREATOR_KEY)
-      self.collection_id = collection_id
+                   attributes: {})
+      self.collection_id = attributes[:collection_id]
+      set_depositor(attributes[:depositor_id])
 
       super(error_stream: error_stream, info_stream: info_stream)
+    end
+
+    # "depositor" is a required field for Hyrax.  If
+    # it hasn't been set, set it to the Hyrax default
+    # batch user.
+    def set_depositor(user_id)
+      user = User.find(user_id) if user_id
+      user ||= ::User.find_or_create_system_user(DEFAULT_CREATOR_KEY)
+      self.depositor = user
     end
 
     ##
@@ -42,14 +58,6 @@ module Darlingtonia
       Hyrax.config.curation_concerns.first
     end
 
-    # Depositor is a required field for Hyrax
-    # If it hasn't been set in the metadata, set it to the Hyrax default batch user
-    # Even if it has been set, for now, override that with the batch user.
-    # @param Darlingtonia::InputRecord
-    def set_depositor(record)
-      record.mapper.metadata["depositor"] = @creator.user_key
-    end
-
     # The path on disk where file attachments can be found
     def file_attachments_path
       ENV['IMPORT_PATH'] || '/opt/data'
@@ -67,7 +75,7 @@ module Darlingtonia
       uploaded_file_ids = []
       files_to_attach.each do |filename|
         file = File.open(find_file_path(filename))
-        uploaded_file = Hyrax::UploadedFile.create(user: @creator, file: file)
+        uploaded_file = Hyrax::UploadedFile.create(user: @depositor, file: file)
         uploaded_file_ids << uploaded_file.id
         file.close
       end
@@ -93,16 +101,18 @@ module Darlingtonia
       def create_for(record:)
         info_stream << 'Creating record: ' \
                        "#{record.respond_to?(:title) ? record.title : record}."
-        set_depositor(record)
-        uploaded_files = { uploaded_files: create_upload_files(record) }
-        created    = import_type.new
+        additional_attrs = {
+          uploaded_files: create_upload_files(record),
+          depositor: @depositor.user_key
+        }
+        created = import_type.new
 
-        attributes = record.attributes.merge(uploaded_files)
-        attributes = attributes.merge(member_of_collections_attributes: { '0' => { id: collection_id } }) if collection_id
+        attrs = record.attributes.merge(additional_attrs)
+        attrs = attrs.merge(member_of_collections_attributes: { '0' => { id: collection_id } }) if collection_id
 
-        actor_env  = Hyrax::Actors::Environment.new(created,
-                                                    ::Ability.new(@creator),
-                                                    attributes)
+        actor_env = Hyrax::Actors::Environment.new(created,
+                                                   ::Ability.new(@depositor),
+                                                   attrs)
 
         if Hyrax::CurationConcern.actor.create(actor_env)
           info_stream << "Record created at: #{created.id}"

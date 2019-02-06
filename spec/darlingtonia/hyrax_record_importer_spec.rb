@@ -6,18 +6,18 @@ describe Darlingtonia::HyraxRecordImporter, :clean do
     described_class.new(error_stream: error_stream, info_stream: info_stream)
   end
 
+  load File.expand_path("../../support/shared_contexts/with_work_type.rb", __FILE__)
+  include_context 'with a work type'
+
   let(:error_stream) { [] }
   let(:info_stream)  { [] }
   let(:record)       { Darlingtonia::InputRecord.from(metadata: metadata) }
 
   context 'collection id' do
     subject(:importer) do
-      described_class.new(collection_id: collection_id)
+      described_class.new(attributes: { collection_id: collection_id })
     end
     let(:collection_id) { '123' }
-
-    load File.expand_path("../../support/shared_contexts/with_work_type.rb", __FILE__)
-    include_context 'with a work type'
 
     it 'can have a collection id' do
       expect(importer.collection_id).to eq collection_id
@@ -32,8 +32,6 @@ describe Darlingtonia::HyraxRecordImporter, :clean do
         'visibility' => 'open'
       }
     end
-    load File.expand_path("../../support/shared_contexts/with_work_type.rb", __FILE__)
-    include_context 'with a work type'
 
     it 'creates a work for record' do
       expect { importer.import(record: record) }
@@ -54,8 +52,6 @@ describe Darlingtonia::HyraxRecordImporter, :clean do
         'files' => 'darlingtonia.png|~|cat.png'
       }
     end
-    load File.expand_path("../../support/shared_contexts/with_work_type.rb", __FILE__)
-    include_context 'with a work type'
     it 'finds a file even if it is in a subdirectory' do
       expect(importer.find_file_path('cat.png')).to eq "#{ENV['IMPORT_PATH']}/animals/cat.png"
     end
@@ -82,8 +78,6 @@ describe Darlingtonia::HyraxRecordImporter, :clean do
         ' Files' => 'darlingtonia.png|~|cat.png'
       }
     end
-    load File.expand_path("../../support/shared_contexts/with_work_type.rb", __FILE__)
-    include_context 'with a work type'
 
     it 'makes an uploaded file object for each file attachment' do
       expect { importer.import(record: record) }
@@ -101,32 +95,36 @@ describe Darlingtonia::HyraxRecordImporter, :clean do
     end
   end
 
-  context 'with and without a depositor value' do
-    context 'when there is no depositor set' do
-      let(:metadata) do
-        {
-          'title' => 'A Title',
-          'language' => 'English',
-          'visibility' => 'open'
-        }
-      end
-      it 'adds the batch user as the depositor' do
-        importer.set_depositor(record)
-        expect(record.mapper.metadata["depositor"]).to eq "batchuser@example.com"
+  describe '#set_depositor' do
+    let(:metadata) { { 'title' => 'A Title' } }
+
+    context 'when no depositor is set' do
+      it 'sets the Hyrax default batch user' do
+        expect(importer.depositor.user_key).to eq 'batchuser@example.com'
       end
     end
-    context 'when there is a depositor set' do
-      let(:metadata) do
-        {
-          'title' => 'A Title',
-          'language' => 'English',
-          'visibility' => 'open',
-          'depositor' => 'my@custom.depositor'
-        }
+
+    context 'when depositor is passed to initializer' do
+      subject(:importer) { described_class.new(error_stream: error_stream, info_stream: info_stream, attributes: { depositor_id: user.id }) }
+
+      let(:user) { ::User.new(id: '123', user_key: 'special_user@example.com') }
+      before { allow(::User).to receive(:find).and_return(user) }
+
+      it 'sets it to the passed-in depositor' do
+        expect(importer.depositor.user_key).to eq 'special_user@example.com'
       end
-      it 'resets the batch user as the depositor' do
-        importer.set_depositor(record)
-        expect(record.mapper.metadata["depositor"]).to eq "batchuser@example.com"
+    end
+
+    context 'when depositor is set in metadata' do
+      let(:metadata) do
+        { 'title' => 'A Title',
+          'Depositor' => 'metadata_user@example.com' }
+      end
+
+      it 'sets the Hyrax default batch user' do
+        expect(importer.depositor.user_key).to eq 'batchuser@example.com'
+        # TODO: expect(importer.depositor.user_key).to eq 'metadata_user@example.com'
+        # The metadata depositor should probably override any passed-in or default depositor.
       end
     end
   end

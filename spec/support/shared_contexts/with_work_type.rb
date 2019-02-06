@@ -12,12 +12,17 @@ shared_context 'with a work type' do
       include ::Hyrax::BasicMetadata
     end
 
-    class User
+    class User < Struct.new(:id, :user_key)
+      def initialize(inputs = {})
+        self.id = inputs[:id]
+        self.user_key = inputs[:user_key] || batch_user_key
+      end
+
       def self.find_or_create_system_user(_email)
         User.new
       end
 
-      def user_key
+      def batch_user_key
         'batchuser@example.com'
       end
     end
@@ -47,14 +52,20 @@ shared_context 'with a work type' do
 
       module Actors
         class Environment
-          def initialize(new_object, ability, attributes); end
+          attr_reader :new_object, :attributes
+          def initialize(new_object, _ability, attributes)
+            @new_object = new_object
+            @attributes = attributes
+          end
         end
       end
 
       class Actor
-        def create(_actor_env)
-          Work.create
-          true
+        def create(actor_env)
+          attrs = actor_env.attributes
+          attrs.delete(:uploaded_files)
+          actor_env.new_object.attributes = attrs
+          actor_env.new_object.save
         end
       end
 
@@ -68,6 +79,8 @@ shared_context 'with a work type' do
 
   after do
     Object.send(:remove_const, :Hyrax) if defined?(Hyrax)
-    Object.send(:remove_const, :Work)  if defined?(Work)
+    Object.send(:remove_const, :Work) if defined?(Work)
+    Object.send(:remove_const, :User) if defined?(User)
+    Object.send(:remove_const, :Ability) if defined?(Ability)
   end
 end

@@ -2,16 +2,12 @@
 require 'spec_helper'
 
 describe 'importing a CSV with Hyrax defaults', :clean do
-  subject(:importer) { Darlingtonia::Importer.new(parser: parser) }
+  subject(:importer) { Darlingtonia::Importer.new(parser: parser, record_importer: record_importer) }
   let(:parser) { Darlingtonia::CsvParser.new(file: csv_file) }
+  let(:record_importer) { Darlingtonia::HyraxRecordImporter.new }
 
   let(:csv_file) { File.open('spec/fixtures/hyrax/example.csv') }
   after { csv_file.close }
-
-  before do
-    # Force it to use the Hyrax mapper instead of the default mapper
-    allow(Darlingtonia::HashMapper).to receive(:new).and_return(Darlingtonia::HyraxBasicMetadataMapper.new)
-  end
 
   load File.expand_path("../../support/shared_contexts/with_work_type.rb", __FILE__)
   include_context 'with a work type'
@@ -24,7 +20,7 @@ describe 'importing a CSV with Hyrax defaults', :clean do
     work2 = works.find { |w| w.title == ['Work 2 Title'] }
 
     # First Record
-    expect(work1.depositor).to eq 'user@example.com'
+    expect(work1.depositor).to eq 'batchuser@example.com'
     expect(work1.date_uploaded).to eq '2018-12-21'
     expect(work1.date_modified).to eq '2018-01-01'
     expect(work1.label).to eq 'Work 1 Label'
@@ -51,7 +47,7 @@ describe 'importing a CSV with Hyrax defaults', :clean do
     expect(work1.source).to eq ['Source 1']
 
     # Second Record
-    expect(work2.depositor).to be_nil
+    expect(work2.depositor).to eq 'batchuser@example.com'
     expect(work2.date_uploaded).to eq '1970-12-21'
     expect(work2.date_modified).to be_nil
     expect(work2.label).to eq 'Work 2 Label'
