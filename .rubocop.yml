@@ -47,3 +47,6 @@ RSpec/MultipleExpectations:
   Exclude:
     - 'spec/darlingtonia/hyrax_basic_metadata_mapper_spec.rb'
     - 'spec/integration/import_hyrax_csv.rb'
+
+Style/StructInheritance:
+  Enabled: false
