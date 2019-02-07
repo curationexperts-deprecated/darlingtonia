@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require 'uri'
 
 module Darlingtonia
   ##
@@ -66,6 +67,58 @@ module Darlingtonia
 
     def files
       map_field('files')
+    end
+
+    ##
+    # When submitting location data (a.k.a. the "based near" attribute) via the UI,
+    # Hyrax expects to receive a `based_near_attributes` hash in a specific format.
+    # We need to take geonames urls as provided by the customer and transform them to
+    # mimic what the Hyrax UI would ordinarily produce. These will get turned into
+    # Hyrax::ControlledVocabularies::Location objects upon ingest.
+    # The expected hash looks like this:
+    # {
+    #   "based_near_attributes"=>
+    #     {
+    #       "0"=> {
+    #               "hidden_label"=>"Montana",
+    #               "id"=>"http://sws.geonames.org/5667009/", "_destroy"=>""
+    #             },
+    #       "1"=> {
+    #               "hidden_label"=>"United States",
+    #               "id"=>"http://sws.geonames.org/6252001/", "_destroy"=>""
+    #             },
+    #   }
+    # }
+    # @return [Hash] a "based_near_attributes" hash as
+    def based_near
+      original_geonames_uris = map_field('location')
+      return if original_geonames_uris.empty?
+      based_near_attributes = { "based_near_attributes" => {} }
+      original_geonames_uris.each_with_index do |uri, i|
+        based_near_attributes["based_near_attributes"][i.to_s] = { "hidden_label" => uri_to_hidden_label(uri), "id" => uri_to_sws(uri), "_destroy" => "" }
+      end
+      based_near_attributes
+    end
+
+    #
+    # Take a geonames URI and return a label. This should be the last bit of the uri
+    # (e.g., "montana.html") with the .html removed and the remaining part titleized.
+    # @param [String] uri
+    # @return [String] a place name
+    def uri_to_hidden_label(uri)
+      uri = URI(uri)
+      uri.path.split('/')[-1].gsub('.html', '').tr('-', ' ').titleize
+    end
+
+    #
+    # Take a user-facing geonames URI and return an sws URI, of the form Hyrax expects
+    # (e.g., "http://sws.geonames.org/6252001/")
+    # @param [String] uri
+    # @return [String] an sws style geonames uri
+    def uri_to_sws(uri)
+      uri = URI(uri)
+      geonames_number = uri.path.split('/')[1]
+      "http://sws.geonames.org/#{geonames_number}/"
     end
 
     ##

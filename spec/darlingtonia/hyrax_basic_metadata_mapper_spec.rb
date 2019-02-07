@@ -142,5 +142,46 @@ describe Darlingtonia::HyraxBasicMetadataMapper do
         expect(mapper.depositor).to eq nil
       end
     end
+
+    # When submitting location data (a.k.a., the "based near" attribute) via the UI,
+    # Hyrax expects to receive a `based_near_attributes` hash in a specific format.
+    # We need to take geonames urls as provided by the customer and transform them to
+    # mimic what the Hyrax UI would ordinarily produce. These will get turned into
+    # Hyrax::ControlledVocabularies::Location objects upon ingest.
+    context 'with location uris' do
+      before { mapper.metadata = metadata }
+      let(:metadata) do
+        {
+          'title' => 'A Title',
+          'language' => 'English',
+          'visibility' => 'open',
+          'location' => 'http://www.geonames.org/5667009/montana.html|~|http://www.geonames.org/6252001/united-states.html'
+        }
+      end
+      let(:expected_bn_hash) do
+        {
+          "based_near_attributes" =>
+            {
+              "0" => {
+                "hidden_label" => "Montana",
+                "id" => "http://sws.geonames.org/5667009/", "_destroy" => ""
+              },
+              "1" => {
+                "hidden_label" => "United States",
+                "id" => "http://sws.geonames.org/6252001/", "_destroy" => ""
+              }
+            }
+        }
+      end
+      it "gets a label from a geonames uri" do
+        expect(mapper.uri_to_hidden_label("http://www.geonames.org/6252001/united-states.html")).to eq "United States"
+      end
+      it "gets a sws uri from a geonames uri" do
+        expect(mapper.uri_to_sws("http://www.geonames.org/6252001/united-states.html")).to eq "http://sws.geonames.org/6252001/"
+      end
+      it 'transforms an array of geonames uris into the expected based_near_attributes hash' do
+        expect(mapper.based_near).to eq expected_bn_hash
+      end
+    end
   end
 end
