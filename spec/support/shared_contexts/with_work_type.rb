@@ -8,6 +8,7 @@ shared_context 'with a work type' do
 
     class Work < ActiveFedora::Base
       attr_accessor :visibility
+      attr_accessor :based_near_attributes
       include ::Hyrax::CoreMetadata
       include ::Hyrax::BasicMetadata
     end
