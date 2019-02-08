@@ -128,4 +128,28 @@ describe Darlingtonia::HyraxRecordImporter, :clean do
       end
     end
   end
+  # When submitting location data (a.k.a., the "based near" attribute) via the UI,
+  # Hyrax expects to receive a `based_near_attributes` hash in a specific format.
+  # We need to take geonames urls as provided by the customer and transform them to
+  # mimic what the Hyrax UI would ordinarily produce. These will get turned into
+  # Hyrax::ControlledVocabularies::Location objects upon ingest.
+  context 'with location uris' do
+    let(:based_near) { ['http://www.geonames.org/5667009/montana.html', 'http://www.geonames.org/6252001/united-states.html'] }
+    let(:expected_bn_hash) do
+      {
+        "0" => {
+          "id" => "http://sws.geonames.org/5667009/", "_destroy" => ""
+        },
+        "1" => {
+          "id" => "http://sws.geonames.org/6252001/", "_destroy" => ""
+        }
+      }
+    end
+    it "gets a sws uri from a geonames uri" do
+      expect(importer.uri_to_sws("http://www.geonames.org/6252001/united-states.html")).to eq "http://sws.geonames.org/6252001/"
+    end
+    it 'transforms an array of geonames uris into the expected based_near_attributes hash' do
+      expect(importer.based_near_attributes(based_near)).to eq expected_bn_hash
+    end
+  end
 end
