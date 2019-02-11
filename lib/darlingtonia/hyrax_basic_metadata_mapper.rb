@@ -73,6 +73,10 @@ module Darlingtonia
         'registered'
       when "authenticated"
         'registered'
+      when ::Hyrax::Institution.name&.downcase&.gsub(/\s+/, "")
+        'registered'
+      when ::Hyrax::Institution.name_full&.downcase&.gsub(/\s+/, "")
+        'registered'
       when 'private'
         'restricted'
       when 'restricted'

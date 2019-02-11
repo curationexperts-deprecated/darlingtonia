@@ -43,6 +43,16 @@ shared_context 'with a work type' do
         end
       end
 
+      class Institution
+        def self.name
+          'my_institution'
+        end
+
+        def self.name_full
+          'my full institution name'
+        end
+      end
+
       class UploadedFile < ActiveFedora::Base
         def self.create(*)
           h = Hyrax::UploadedFile.new

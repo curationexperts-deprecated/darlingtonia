@@ -3,6 +3,8 @@
 require 'spec_helper'
 
 describe Darlingtonia::InputRecord do
+  load File.expand_path("../../support/shared_contexts/with_work_type.rb", __FILE__)
+  include_context 'with a work type'
   subject(:record) { described_class.from(metadata: metadata) }
 
   let(:metadata) do
