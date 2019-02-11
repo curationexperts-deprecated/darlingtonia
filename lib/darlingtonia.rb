@@ -45,8 +45,8 @@ module Darlingtonia
     attr_accessor :default_error_stream, :default_info_stream
 
     def initialize
-      self.default_error_stream = Darlingtonia::LogStream.new
-      self.default_info_stream  = Darlingtonia::LogStream.new
+      self.default_error_stream = Darlingtonia::LogStream.new(severity: Logger::ERROR)
+      self.default_info_stream  = Darlingtonia::LogStream.new(severity: Logger::INFO)
     end
   end
 

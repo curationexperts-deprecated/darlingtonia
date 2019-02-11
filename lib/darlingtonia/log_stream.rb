@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-
+require 'byebug'
 module Darlingtonia
   class LogStream
     ##
@@ -23,21 +23,22 @@ module Darlingtonia
 
       def build_filename
         return ENV['IMPORT_LOG'] if ENV['IMPORT_LOG']
-        return rails_log_name if rails_log_name
-        return './darlingtonia_import.log' unless rails_log_name
+        rails_log_name
       end
 
       def rails_log_name
-        case Rails.env
+        case ENV['RAILS_ENV']
         when 'production'
           Rails.root.join('log', "csv_import.log").to_s
         when 'development'
           Rails.root.join('log', "dev_csv_import.log").to_s
         when 'test'
           Rails.root.join('log', "test_csv_import.log").to_s
+        when nil
+          './darlingtonia_import.log'
         end
       rescue NameError
-        false
+        './darlingtonia_import.log'
       end
   end
 end
