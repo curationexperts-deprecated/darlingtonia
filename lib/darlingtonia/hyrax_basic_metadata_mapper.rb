@@ -61,8 +61,29 @@ module Darlingtonia
       single_value('import_url')
     end
 
+    # We should accept visibility values that match the UI and transform them into
+    # the controlled vocabulary term expected by Hyrax
     def visibility
-      single_value('visibility')
+      case metadata[matching_header('visibility')]&.downcase&.gsub(/\s+/, "")
+      when 'public'
+        'open'
+      when 'open'
+        'open'
+      when 'registered'
+        'registered'
+      when "authenticated"
+        'registered'
+      when ::Hyrax::Institution.name&.downcase&.gsub(/\s+/, "")
+        'registered'
+      when ::Hyrax::Institution.name_full&.downcase&.gsub(/\s+/, "")
+        'registered'
+      when 'private'
+        'restricted'
+      when 'restricted'
+        'restricted'
+      else
+        'restricted' # This is the default if nothing else matches
+      end
     end
 
     def files

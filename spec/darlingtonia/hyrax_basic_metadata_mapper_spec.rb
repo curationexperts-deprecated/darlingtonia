@@ -130,6 +130,53 @@ describe Darlingtonia::HyraxBasicMetadataMapper do
       end
     end
 
+    context 'Visibility values in the CSV should match the Edit UI' do
+      load File.expand_path("../../support/shared_contexts/with_work_type.rb", __FILE__)
+      include_context 'with a work type'
+      context 'public is a synonym for open' do
+        before { mapper.metadata = metadata }
+        let(:metadata) do
+          { ' Title ' => 'A Title',
+            " Related URL \n " => 'http://example.com',
+            ' visiBILITY ' => 'PubLIC' }
+        end
+
+        it 'transforms public to open regardless of capitalization' do
+          expect(mapper.title).to eq ['A Title']
+          expect(mapper.related_url).to eq ['http://example.com']
+          expect(mapper.visibility).to eq 'open'
+        end
+      end
+      context 'institution name is a synonym for registered' do
+        before { mapper.metadata = metadata }
+        let(:metadata) do
+          { ' Title ' => 'A Title',
+            " Related URL \n " => 'http://example.com',
+            ' visiBILITY ' => 'my_institution' }
+        end
+
+        it 'transforms public to open regardless of capitalization' do
+          expect(mapper.title).to eq ['A Title']
+          expect(mapper.related_url).to eq ['http://example.com']
+          expect(mapper.visibility).to eq 'registered'
+        end
+      end
+      context 'full institution name is a synonym for registered' do
+        before { mapper.metadata = metadata }
+        let(:metadata) do
+          { ' Title ' => 'A Title',
+            " Related URL \n " => 'http://example.com',
+            ' visiBILITY ' => 'my full institution name' }
+        end
+
+        it 'transforms public to open regardless of capitalization' do
+          expect(mapper.title).to eq ['A Title']
+          expect(mapper.related_url).to eq ['http://example.com']
+          expect(mapper.visibility).to eq 'registered'
+        end
+      end
+    end
+
     # When someone accidentally has too many commas in the CSV rows
     context 'headers with a nil' do
       before { mapper.metadata = metadata }

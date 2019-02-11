@@ -3,6 +3,9 @@
 require 'spec_helper'
 
 describe Darlingtonia::Importer do
+  load File.expand_path("../../support/shared_contexts/with_work_type.rb", __FILE__)
+  include_context 'with a work type'
+
   subject(:importer) { described_class.new(parser: parser) }
   let(:parser)       { FakeParser.new(file: input) }
   let(:input)        { [{ 'title' => '1' }, { 'title' => '2' }, { 'title' => '3' }] }
