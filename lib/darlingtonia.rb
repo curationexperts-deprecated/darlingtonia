@@ -33,6 +33,7 @@ module Darlingtonia
   end
   module_function :config
 
+  require 'darlingtonia/log_stream'
   ##
   # Module-wide options for `Darlingtonia`.
   class Configuration
@@ -44,8 +45,8 @@ module Darlingtonia
     attr_accessor :default_error_stream, :default_info_stream
 
     def initialize
-      self.default_error_stream = STDOUT
-      self.default_info_stream  = STDOUT
+      self.default_error_stream = Darlingtonia::LogStream.new
+      self.default_info_stream  = Darlingtonia::LogStream.new
     end
   end
 

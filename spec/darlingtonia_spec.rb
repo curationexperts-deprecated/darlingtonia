@@ -5,21 +5,15 @@ require 'spec_helper'
 describe Darlingtonia do
   describe '#config' do
     it 'can set a default error stream' do
-      stream = []
-
-      expect { described_class.config { |c| c.default_error_stream = stream } }
+      expect { described_class.config { |c| c.default_error_stream = STDOUT } }
         .to change { described_class.config.default_error_stream }
-        .from(STDOUT)
-        .to(stream)
+        .to(STDOUT)
     end
 
     it 'can set a default info stream' do
-      stream = []
-
-      expect { described_class.config { |c| c.default_info_stream = stream } }
+      expect { described_class.config { |c| c.default_info_stream = STDOUT } }
         .to change { described_class.config.default_info_stream }
-        .from(STDOUT)
-        .to(stream)
+        .to(STDOUT)
     end
   end
 end
