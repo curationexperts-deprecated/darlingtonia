@@ -19,6 +19,10 @@ Metrics/BlockLength:
     - 'spec/**/*'
     - 'lib/darlingtonia/spec/**/*'
 
+Metrics/CyclomaticComplexity:
+  Exclude:
+    - lib/darlingtonia/hyrax_basic_metadata_mapper.rb
+
 Metrics/LineLength:
   Exclude:
     - 'lib/darlingtonia/hyrax_basic_metadata_mapper.rb'
