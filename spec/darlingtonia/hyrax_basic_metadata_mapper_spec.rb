@@ -6,7 +6,7 @@ describe Darlingtonia::HyraxBasicMetadataMapper do
 
   # Properties defined in Hyrax::CoreMetadata
   let(:core_fields) do
-    [:depositor, :title, :date_uploaded, :date_modified]
+    [:depositor, :title, :date_modified]
   end
 
   # Properties defined in Hyrax::BasicMetadata
@@ -49,7 +49,6 @@ describe Darlingtonia::HyraxBasicMetadataMapper do
 
     it 'returns single values for single-value fields' do
       expect(mapper.depositor).to eq 'someone@example.org'
-      expect(mapper.date_uploaded).to eq nil
       expect(mapper.date_modified).to eq nil
       expect(mapper.label).to eq nil
       expect(mapper.relative_path).to eq nil
@@ -93,7 +92,6 @@ describe Darlingtonia::HyraxBasicMetadataMapper do
           'Abstract or Summary' => 'desc1|~|desc2',
           'visiBILITY' => 'open',
           'Depositor' => 'someone@example.org',
-          'DATE_uploaded' => 'up date',
           'DATE_modified' => 'mod date',
           'laBel' => 'label',
           'relative_PATH' => 'rel path',
@@ -107,7 +105,6 @@ describe Darlingtonia::HyraxBasicMetadataMapper do
         expect(mapper.creator).to eq []
         expect(mapper.visibility).to eq 'open'
         expect(mapper.depositor).to eq 'someone@example.org'
-        expect(mapper.date_uploaded).to eq 'up date'
         expect(mapper.date_modified).to eq 'mod date'
         expect(mapper.label).to eq 'label'
         expect(mapper.relative_path).to eq 'rel path'

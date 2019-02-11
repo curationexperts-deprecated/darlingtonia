@@ -21,7 +21,6 @@ describe 'importing a CSV with Hyrax defaults', :clean do
 
     # First Record
     expect(work1.depositor).to eq 'batchuser@example.com'
-    expect(work1.date_uploaded).to eq '2018-12-21'
     expect(work1.date_modified).to eq '2018-01-01'
     expect(work1.label).to eq 'Work 1 Label'
     expect(work1.relative_path).to eq 'tmp/files'
@@ -48,7 +47,6 @@ describe 'importing a CSV with Hyrax defaults', :clean do
 
     # Second Record
     expect(work2.depositor).to eq 'batchuser@example.com'
-    expect(work2.date_uploaded).to eq '1970-12-21'
     expect(work2.date_modified).to be_nil
     expect(work2.label).to eq 'Work 2 Label'
     expect(work2.relative_path).to be_nil
