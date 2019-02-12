@@ -103,13 +103,15 @@ module Darlingtonia
 
     private
 
+      # rubocop:disable Lint/UnusedMethodArgument
+
       ##
       # @return [Enumerator<Error>]
       #
-      # rubocop:disable Lint/UnusedMethodArgument
       def run_validation(parser:)
         [].to_enum
       end
-      # rubocop:enable Lint/UnusedMethodArgument
+
+    # rubocop:enable Lint/UnusedMethodArgument
   end
 end
