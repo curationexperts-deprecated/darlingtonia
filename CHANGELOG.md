@@ -1,9 +1,18 @@
+2.1.0 - Tue Feb 12, 2019
+
+* Map a variety of values for 'visibility' to their Hyrax approved equivalents
+* Remove date_uploaded from HyraxBasicMetadataMapper so it doesn't over-write the Hyrax provided timestamp
+* Import headers are now case and whitespace insensitive
+* Raise a more meaningful error when an expected file isn't found
+* Transform location URIs into a based_near hash so geonames URIs import properly into Hyrax
+* Add a default LogStream class so that Darlingtonia has logging by default instead of only sending output to STDOUT
+
 2.0.0 - Mon Feb 4, 2019
 
 Assume our base use case is to import into Hyrax.
   * Use HyraxRecordImporter as default
   * Use HyraxMapper as default
-  * Add a getting started guide to the docs directory 
+  * Add a getting started guide to the docs directory
 
 1.2.3 - Thu Jan 24, 2019
 ------------------------
