@@ -41,10 +41,6 @@ module Darlingtonia
       single_value('depositor')
     end
 
-    def date_uploaded
-      single_value('date_uploaded')
-    end
-
     def date_modified
       single_value('date_modified')
     end
@@ -131,8 +127,12 @@ module Darlingtonia
       end
 
       # Properties defined in Hyrax::CoreMetadata
+      # Note that date_uploaded is NOT set here, even though it is defined in
+      # Hyrax::CoreMetadata. Hyrax expects to set date_uploaded itself, and
+      # sending a metadata value for that field interferes with Hyrax expected
+      # behavior.
       def core_fields
-        [:depositor, :title, :date_uploaded, :date_modified]
+        [:depositor, :title, :date_modified]
       end
 
       # Properties defined in Hyrax::BasicMetadata
