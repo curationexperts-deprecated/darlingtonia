@@ -66,13 +66,13 @@ module Darlingtonia
       when 'open'
         'open'
       when 'registered'
-        'registered'
+        'authenticated'
       when "authenticated"
-        'registered'
+        'authenticated'
       when ::Hyrax::Institution.name&.downcase&.gsub(/\s+/, "")
-        'registered'
+        'authenticated'
       when ::Hyrax::Institution.name_full&.downcase&.gsub(/\s+/, "")
-        'registered'
+        'authenticated'
       when 'private'
         'restricted'
       when 'restricted'
