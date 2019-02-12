@@ -147,7 +147,7 @@ describe Darlingtonia::HyraxBasicMetadataMapper do
           expect(mapper.visibility).to eq 'open'
         end
       end
-      context 'institution name is a synonym for registered' do
+      context 'institution name is a synonym for authenticated' do
         before { mapper.metadata = metadata }
         let(:metadata) do
           { ' Title ' => 'A Title',
@@ -155,13 +155,13 @@ describe Darlingtonia::HyraxBasicMetadataMapper do
             ' visiBILITY ' => 'my_institution' }
         end
 
-        it 'transforms public to open regardless of capitalization' do
+        it 'transforms institution name to authenticated regardless of capitalization' do
           expect(mapper.title).to eq ['A Title']
           expect(mapper.related_url).to eq ['http://example.com']
-          expect(mapper.visibility).to eq 'registered'
+          expect(mapper.visibility).to eq 'authenticated'
         end
       end
-      context 'full institution name is a synonym for registered' do
+      context 'full institution name is a synonym for authenticated' do
         before { mapper.metadata = metadata }
         let(:metadata) do
           { ' Title ' => 'A Title',
@@ -169,10 +169,10 @@ describe Darlingtonia::HyraxBasicMetadataMapper do
             ' visiBILITY ' => 'my full institution name' }
         end
 
-        it 'transforms public to open regardless of capitalization' do
+        it 'transforms full institution name to authenticated regardless of capitalization' do
           expect(mapper.title).to eq ['A Title']
           expect(mapper.related_url).to eq ['http://example.com']
-          expect(mapper.visibility).to eq 'registered'
+          expect(mapper.visibility).to eq 'authenticated'
         end
       end
     end
