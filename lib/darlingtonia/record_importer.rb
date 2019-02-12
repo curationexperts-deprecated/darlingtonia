@@ -7,7 +7,13 @@ module Darlingtonia
     #   @return [#<<]
     # @!attribute [rw] info_stream
     #   @return [#<<]
-    attr_accessor :error_stream, :info_stream
+    # @!attribute [rw] batch_id
+    #   @return [String] an optional batch id for this import run
+    # @!attribute [rw] success_count
+    #   @return [Integer] a count of the records that were successfully created
+    # @!attribute [rw] failure_count
+    #   @return [Integer] a count of the records that failed import
+    attr_accessor :error_stream, :info_stream, :batch_id, :success_count, :failure_count
 
     ##
     # @param error_stream [#<<]

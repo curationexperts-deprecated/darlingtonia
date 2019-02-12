@@ -34,6 +34,7 @@ module Darlingtonia
     def initialize(parser:, record_importer: RecordImporter.new)
       self.parser          = parser
       self.record_importer = record_importer
+      @info_stream = Darlingtonia.config.default_info_stream
     end
 
     ##
@@ -42,6 +43,7 @@ module Darlingtonia
     # @return [void]
     def import
       records.each { |record| record_importer.import(record: record) }
+      @info_stream << "event: finish_import, batch_id: #{record_importer.batch_id}, successful_record_count: #{record_importer.success_count}, failed_record_count: #{record_importer.failure_count}"
     end
   end
 end
