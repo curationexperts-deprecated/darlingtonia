@@ -12,6 +12,8 @@ describe Darlingtonia::Importer do
 
   let(:fake_record_importer) do
     Class.new do
+      attr_accessor :batch_id, :success_count, :failure_count
+
       def import(record:)
         records << record.attributes
       end

@@ -13,6 +13,18 @@ module Darlingtonia
     # @return [String] The fedora ID for a Collection.
     attr_accessor :collection_id
 
+    # @!attribute [rw] batch_id
+    # @return [String] an id number associated with the process that kicked off this import run
+    attr_accessor :batch_id
+
+    # @!attribute [rw] success_count
+    # @return [String] the number of records this importer has successfully created
+    attr_accessor :success_count
+
+    # @!attribute [rw] failure_count
+    # @return [String] the number of records this importer has failed to create
+    attr_accessor :failure_count
+
     # @param attributes [Hash] Attributes that come
     #        from the UI or importer rather than from
     #        the CSV/mapper.
@@ -23,8 +35,10 @@ module Darlingtonia
                    info_stream: Darlingtonia.config.default_info_stream,
                    attributes: {})
       self.collection_id = attributes[:collection_id]
+      self.batch_id = attributes[:batch_id]
       set_depositor(attributes[:depositor_id])
-
+      @success_count = 0
+      @failure_count = 0
       super(error_stream: error_stream, info_stream: info_stream)
     end
 
@@ -137,8 +151,8 @@ module Darlingtonia
       # Create an object using the Hyrax actor stack
       # We assume the object was created as expected if the actor stack returns true.
       def create_for(record:)
-        info_stream << 'Creating record: ' \
-                       "#{record.respond_to?(:title) ? record.title : record}."
+        info_stream << "event: record_import_started, batch_id: #{batch_id}, collection_id: #{collection_id}, record_title: #{record.respond_to?(:title) ? record.title : record}"
+
         additional_attrs = {
           uploaded_files: create_upload_files(record),
           depositor: @depositor.user_key
@@ -156,14 +170,14 @@ module Darlingtonia
                                                    attrs)
 
         if Hyrax::CurationConcern.actor.create(actor_env)
-          info_stream << "Record created at: #{created.id}"
+          info_stream << "event: record_created, batch_id: #{batch_id}, record_id: #{created.id}, collection_id: #{collection_id}, record_title: #{attrs[:title].first}"
+          @success_count += 1
         else
           created.errors.each do |attr, msg|
-            error_stream << "Validation failed: #{attr.capitalize}. #{msg}"
+            error_stream << "event: validation_failed, batch_id: #{batch_id}, collection_id: #{collection_id}, attribute: #{attr.capitalize}, message: #{msg}, record_title: #{attrs[:title].first}"
           end
+          @failure_count += 1
         end
-
-        info_stream << "Record created at: #{created.id}"
       end
   end
 end
