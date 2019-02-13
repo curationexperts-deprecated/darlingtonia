@@ -53,7 +53,28 @@ module Darlingtonia
   #
   # @see Parser#validate
   class Validator
+    ##
+    # A representation of an error encountered in validation.
     Error = Struct.new(:validator, :name, :description, :lineno) do
+      ##
+      # @!attribute [rw] validator
+      #   @return [#to_s] the validator that generated this error
+      # @!attribute [rw] name
+      #   @return [#to_s] a short descriptive name for the given error
+      # @!attribute [rw] description
+      #   @return [#to_s] a long form description or message
+      # @!attribute [rw] lineno
+      #   @return [#to_s] the line number, or other indication of the location
+      #     where the error was encountered
+
+      ##
+      # @return [Boolean]
+      def validator_error?
+        true
+      end
+
+      ##
+      # @return [String]
       def to_s
         "#{name}: #{description} (#{validator})"
       end
@@ -79,16 +100,18 @@ module Darlingtonia
         errors.map { |error| error_stream << error }
       end
     end
-    # rubocop:enable Lint/UnusedMethodArgument
 
     private
+
+      # rubocop:disable Lint/UnusedMethodArgument
 
       ##
       # @return [Enumerator<Error>]
       #
-      # rubocop:disable Lint/UnusedMethodArgument
       def run_validation(parser:)
         [].to_enum
       end
+
+    # rubocop:enable Lint/UnusedMethodArgument
   end
 end
