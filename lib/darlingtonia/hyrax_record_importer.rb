@@ -27,10 +27,13 @@ module Darlingtonia
 
     # @param attributes [Hash] Attributes that come
     #        from the UI or importer rather than from
-    #        the CSV/mapper.
+    #        the CSV/mapper. These are useful for logging
+    #        and tracking the output of an import job for
+    #        a given collection, user, or batch.
     # @example
     #   attributes: { collection_id: '123',
-    #                 depositor_id: '456' }
+    #                 depositor_id: '456',
+    #                 batch_id: '789' }
     def initialize(error_stream: Darlingtonia.config.default_error_stream,
                    info_stream: Darlingtonia.config.default_info_stream,
                    attributes: {})
