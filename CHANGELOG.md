@@ -1,3 +1,10 @@
+2.2.0 - Tue Feb 12, 2019
+
+* Improved default logging
+  * logs are more easily parsed, e.g., by splunk
+  * logs contain summary information
+  * option to pass in a batch_id to track successes and failures per batch
+
 2.1.0 - Tue Feb 12, 2019
 
 * Map a variety of values for 'visibility' to their Hyrax approved equivalents
