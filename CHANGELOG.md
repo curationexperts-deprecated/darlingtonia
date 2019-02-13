@@ -1,5 +1,11 @@
-2.2.0 - Tue Feb 12, 2019
+3.0.0 - Wed Feb 13, 2019
 
+* Change to method signature of HyraxRecordImporter.new
+  * initialize method now accepts an attributes hash for
+    attributes that come from the UI or importer rather
+    than from the CSV/mapper. These are useful for logging
+    and tracking the output of an import job for a given
+    collection, user, or batch.
 * Improved default logging
   * logs are more easily parsed, e.g., by splunk
   * logs contain summary information
