@@ -1,3 +1,7 @@
+3.0.1 - Thu Feb 14, 2019
+
+* Move the default log into a log folder
+
 3.0.0 - Wed Feb 13, 2019
 
 * Change to method signature of HyraxRecordImporter.new
