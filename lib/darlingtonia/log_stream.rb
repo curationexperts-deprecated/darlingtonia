@@ -24,7 +24,7 @@ module Darlingtonia
       def build_filename
         return ENV['IMPORT_LOG'] if ENV['IMPORT_LOG']
         return rails_log_name if rails_log_name
-        return './darlingtonia_import.log' unless rails_log_name
+        return Rails.root.join('log', 'darlingtonia_import.log').to_s unless rails_log_name
       end
 
       def rails_log_name
