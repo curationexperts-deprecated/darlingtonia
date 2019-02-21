@@ -160,6 +160,7 @@ module Darlingtonia
           uploaded_files: create_upload_files(record),
           depositor: @depositor.user_key
         }
+
         created = import_type.new
 
         attrs = record.attributes.merge(additional_attrs)
@@ -177,7 +178,7 @@ module Darlingtonia
           @success_count += 1
         else
           created.errors.each do |attr, msg|
-            error_stream << "event: validation_failed, batch_id: #{batch_id}, collection_id: #{collection_id}, attribute: #{attr.capitalize}, message: #{msg}, record_title: #{attrs[:title].first}"
+            error_stream << "event: validation_failed, batch_id: #{batch_id}, collection_id: #{collection_id}, attribute: #{attr.capitalize}, message: #{msg}, record_title: record_title: #{attrs[:title] ? attrs[:title] : attrs}"
           end
           @failure_count += 1
         end
