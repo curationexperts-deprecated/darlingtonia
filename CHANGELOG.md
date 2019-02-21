@@ -1,3 +1,7 @@
+3.0.2 - Thu Feb 21, 2019
+
+* Bug fix: Do not fail to log errors if the record is missing a title
+
 3.0.1 - Thu Feb 14, 2019
 
 * Move the default log into a log folder
