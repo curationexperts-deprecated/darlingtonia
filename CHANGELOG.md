@@ -1,3 +1,18 @@
+3.0.3 - Thu Feb 21, 2019
+
+* Bug fix: Ensure there is no files metadata field passed
+
+  If Hyrax (or perhaps some versions of Hyrax?) receives a metadata field called
+  "files" it will not attach files correctly.
+
+  It causes an exception like this:
+
+  ```
+  ActiveFedora::AssociationTypeMismatch:
+        Hydra::PCDM::File(#47055098949460) expected, got String(#47054999182880)
+  ```
+  This change removes any :files field from the metadata before submitting to Hyrax.
+
 3.0.2 - Thu Feb 21, 2019
 
 * Bug fix: Do not fail to log errors if the record is missing a title
