@@ -166,6 +166,10 @@ module Darlingtonia
         attrs = record.attributes.merge(additional_attrs)
         attrs = attrs.merge(member_of_collections_attributes: { '0' => { id: collection_id } }) if collection_id
 
+        # Ensure nothing is passed in the files field,
+        # since this is reserved for Hyrax and is where uploaded_files will be attached
+        attrs.delete(:files)
+
         based_near = attrs.delete(:based_near)
         attrs = attrs.merge(based_near_attributes: based_near_attributes(based_near)) unless based_near.nil? || based_near.empty?
 
