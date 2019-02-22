@@ -40,6 +40,29 @@ describe Darlingtonia::HyraxRecordImporter, :clean do
     end
   end
 
+  # Instead of having a files field in the mapper, which will create a
+  # Hyrax::UploadedFile for each file before attaching it, some importers will
+  # use a remote_files strategy and instead treat each file as a remote file and
+  # fetch it at object creation time. This might be faster, and we might eventually
+  # want to adopt it as our default. For now, do not raise an error if there is no
+  # `files` field in the mapper being used.
+  context 'with no files filed in the mapper' do
+    let(:metadata) do
+      {
+        'title' => 'A Title',
+        'language' => 'English',
+        'visibility' => 'open'
+      }
+    end
+    let(:record) { Darlingtonia::InputRecord.from(metadata: metadata, mapper: Darlingtonia::MetadataMapper.new) }
+
+    it 'creates a work for record' do
+      expect { importer.import(record: record) }
+        .to change { Work.count }
+        .by 1
+    end
+  end
+
   context 'with attached files' do
     before do
       ENV['IMPORT_PATH'] = File.expand_path('../fixtures/images', File.dirname(__FILE__))

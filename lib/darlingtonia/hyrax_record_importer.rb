@@ -86,6 +86,7 @@ module Darlingtonia
     # @param [Darlingtonia::InputRecord]
     # @return [Array] an array of Hyrax::UploadedFile ids
     def create_upload_files(record)
+      return unless record.mapper.respond_to?(:files)
       files_to_attach = record.mapper.files
       return [] if files_to_attach.nil? || files_to_attach.empty?
 
@@ -178,7 +179,7 @@ module Darlingtonia
                                                    attrs)
 
         if Hyrax::CurationConcern.actor.create(actor_env)
-          info_stream << "event: record_created, batch_id: #{batch_id}, record_id: #{created.id}, collection_id: #{collection_id}, record_title: #{attrs[:title].first}"
+          info_stream << "event: record_created, batch_id: #{batch_id}, record_id: #{created.id}, collection_id: #{collection_id}, record_title: #{attrs[:title]&.first}"
           @success_count += 1
         else
           created.errors.each do |attr, msg|
