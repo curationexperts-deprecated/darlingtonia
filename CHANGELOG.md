@@ -1,3 +1,12 @@
+3.0.4 - Fri Feb 22, 2019
+
+* Allow subclassed libraries not to have a files field
+
+  It should be fine to use HyraxRecordImporter with a customized mapper
+  that does not contain a field called files. There are other strategies
+  for attaching files, such as the remote_files strategy used at UCLA in
+  the Californica project.
+
 3.0.3 - Thu Feb 21, 2019
 
 * Bug fix: Ensure there is no files metadata field passed
