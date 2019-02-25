@@ -19,6 +19,10 @@ shared_context 'with a work type' do
         self.user_key = inputs[:user_key] || batch_user_key
       end
 
+      def self.find_by_user_key(email)
+        User.new(user_key: email)
+      end
+
       def self.find_or_create_system_user(_email)
         User.new
       end

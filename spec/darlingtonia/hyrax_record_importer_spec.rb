@@ -128,7 +128,7 @@ describe Darlingtonia::HyraxRecordImporter, :clean do
     end
 
     context 'when depositor is passed to initializer' do
-      subject(:importer) { described_class.new(error_stream: error_stream, info_stream: info_stream, attributes: { depositor_id: user.id }) }
+      subject(:importer) { described_class.new(error_stream: error_stream, info_stream: info_stream, attributes: { depositor_id: user.user_key }) }
 
       let(:user) { ::User.new(id: '123', user_key: 'special_user@example.com') }
       before { allow(::User).to receive(:find).and_return(user) }

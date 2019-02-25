@@ -48,8 +48,9 @@ module Darlingtonia
     # "depositor" is a required field for Hyrax.  If
     # it hasn't been set, set it to the Hyrax default
     # batch user.
-    def set_depositor(user_id)
-      user = User.find(user_id) if user_id
+    def set_depositor(user_key)
+      user = ::User.find_by_user_key(user_key) if user_key
+      user ||= ::User.find(user_key) if user_key
       user ||= ::User.find_or_create_system_user(DEFAULT_CREATOR_KEY)
       self.depositor = user
     end
