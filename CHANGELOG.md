@@ -1,6 +1,13 @@
+3.1.0 - Tue Feb 26, 2019
+
+New Feature: `HyraxRecordImporter` now accepts a `deduplication_field` in the
+attributes hash it receives  when it is created. If a `deduplication_field`
+is provided, the system will look for existing works with that field and matching
+value and will update the record instead of creating a new record.
+
 3.0.5 - Tue Feb 26, 2019
 
-When setting the depositor, query for user with `find_by_user_key`, which is the Hyrax convention. 
+When setting the depositor, query for user with `find_by_user_key`, which is the Hyrax convention.
 If user_key isn't found, fall back to querying by User.id for backward compatibility.
 
 3.0.4 - Fri Feb 22, 2019
