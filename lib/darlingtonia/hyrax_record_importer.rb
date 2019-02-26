@@ -73,6 +73,7 @@ module Darlingtonia
     def find_existing_record(record)
       return unless deduplication_field
       return unless record.respond_to?(deduplication_field)
+      return if record.mapper.send(deduplication_field).nil?
       return if record.mapper.send(deduplication_field).empty?
       existing_records = import_type.where("#{deduplication_field}": record.mapper.send(deduplication_field).to_s)
       raise "More than one record matches deduplication_field #{deduplication_field} with value #{record.mapper.send(deduplication_field)}" if existing_records.count > 1
