@@ -1,3 +1,8 @@
+3.0.5 - Tue Feb 26, 2019
+
+When setting the depositor, query for user with `find_by_user_key`, which is the Hyrax convention. 
+If user_key isn't found, fall back to querying by User.id for backward compatibility.
+
 3.0.4 - Fri Feb 22, 2019
 
 * Allow subclassed libraries not to have a files field
