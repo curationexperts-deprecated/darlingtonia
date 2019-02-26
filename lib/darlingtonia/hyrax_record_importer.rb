@@ -17,6 +17,11 @@ module Darlingtonia
     # @return [String] an id number associated with the process that kicked off this import run
     attr_accessor :batch_id
 
+    # @!attribute [rw] deduplication_field
+    # @return [String] if this is set, look for records with a match in this field
+    # and update the metadata instead of creating a new record. This will NOT re-import file attachments.
+    attr_accessor :deduplication_field
+
     # @!attribute [rw] success_count
     # @return [String] the number of records this importer has successfully created
     attr_accessor :success_count
@@ -30,15 +35,21 @@ module Darlingtonia
     #        the CSV/mapper. These are useful for logging
     #        and tracking the output of an import job for
     #        a given collection, user, or batch.
+    #        If a deduplication_field is provided, the system will
+    #        look for existing works with that field and matching
+    #        value and will update the record instead of creating a new record.
     # @example
     #   attributes: { collection_id: '123',
     #                 depositor_id: '456',
-    #                 batch_id: '789' }
+    #                 batch_id: '789',
+    #                 deduplication_field: 'legacy_id'
+    #               }
     def initialize(error_stream: Darlingtonia.config.default_error_stream,
                    info_stream: Darlingtonia.config.default_info_stream,
                    attributes: {})
       self.collection_id = attributes[:collection_id]
       self.batch_id = attributes[:batch_id]
+      self.deduplication_field = attributes[:deduplication_field]
       set_depositor(attributes[:depositor_id])
       @success_count = 0
       @failure_count = 0
@@ -57,10 +68,23 @@ module Darlingtonia
 
     ##
     # @param record [ImportRecord]
+    # @return [ActiveFedora::Base]
+    # Search for any existing records that match on the deduplication_field
+    def find_existing_record(record)
+      return unless deduplication_field
+      existing_records = import_type.where("#{deduplication_field}": record.mapper.send(deduplication_field).to_s)
+      raise "More than one record matches deduplication_field #{deduplication_field} with value #{record.mapper.send(deduplication_field)}" if existing_records.count > 1
+      existing_records&.first
+    end
+
+    ##
+    # @param record [ImportRecord]
     #
     # @return [void]
     def import(record:)
-      create_for(record: record)
+      existing_record = find_existing_record(record)
+      create_for(record: record) unless existing_record
+      update_for(existing_record: existing_record, update_record: record) if existing_record
     rescue Faraday::ConnectionFailed, Ldp::HttpError => e
       error_stream << e
     rescue RuntimeError => e
@@ -152,6 +176,34 @@ module Darlingtonia
     end
 
     private
+
+      # Update an existing object using the Hyrax actor stack
+      # We assume the object was created as expected if the actor stack returns true.
+      def update_for(existing_record:, update_record:)
+        info_stream << "event: record_update_started, batch_id: #{batch_id}, collection_id: #{collection_id}, #{deduplication_field}: #{update_record.respond_to?(deduplication_field) ? update_record.send(deduplication_field) : update_record}"
+        additional_attrs = {
+          depositor: @depositor.user_key
+        }
+        attrs = update_record.attributes.merge(additional_attrs)
+        attrs = attrs.merge(member_of_collections_attributes: { '0' => { id: collection_id } }) if collection_id
+        # Ensure nothing is passed in the files field,
+        # since this is reserved for Hyrax and is where uploaded_files will be attached
+        attrs.delete(:files)
+        based_near = attrs.delete(:based_near)
+        attrs = attrs.merge(based_near_attributes: based_near_attributes(based_near)) unless based_near.nil? || based_near.empty?
+        actor_env = Hyrax::Actors::Environment.new(existing_record,
+                                                   ::Ability.new(@depositor),
+                                                   attrs)
+        if Hyrax::CurationConcern.actor.update(actor_env)
+          info_stream << "event: record_updated, batch_id: #{batch_id}, record_id: #{existing_record.id}, collection_id: #{collection_id}, #{deduplication_field}: #{existing_record.respond_to?(deduplication_field) ? existing_record.send(deduplication_field) : existing_record}"
+          @success_count += 1
+        else
+          existing_record.errors.each do |attr, msg|
+            error_stream << "event: validation_failed, batch_id: #{batch_id}, collection_id: #{collection_id}, attribute: #{attr.capitalize}, message: #{msg}, record_title: record_title: #{attrs[:title] ? attrs[:title] : attrs}"
+          end
+          @failure_count += 1
+        end
+      end
 
       # Create an object using the Hyrax actor stack
       # We assume the object was created as expected if the actor stack returns true.
