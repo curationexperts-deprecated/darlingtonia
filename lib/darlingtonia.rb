@@ -69,4 +69,5 @@ module Darlingtonia
 
   require 'darlingtonia/parser'
   require 'darlingtonia/parsers/csv_parser'
+  require 'darlingtonia/metadata_only_stack'
 end

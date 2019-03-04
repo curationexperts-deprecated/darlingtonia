@@ -180,8 +180,18 @@ module Darlingtonia
 
     private
 
+      # Build a pared down actor stack that will not re-attach files,
+      # or set workflow, or do anything except update metadata.
+      # TODO: We should be able to set an environment variable that would allow updates to go through the regular
+      # actor stack instead of the stripped down one, in case we want to re-import files.
+      def metadata_only_middleware
+        terminator = Hyrax::Actors::Terminator.new
+        Darlingtonia::MetadataOnlyStack.build_stack.build(terminator)
+      end
+
       # Update an existing object using the Hyrax actor stack
       # We assume the object was created as expected if the actor stack returns true.
+      # Note that for now the update stack will only update metadata and update collection membership, it will not re-import files.
       def update_for(existing_record:, update_record:)
         info_stream << "event: record_update_started, batch_id: #{batch_id}, collection_id: #{collection_id}, #{deduplication_field}: #{update_record.respond_to?(deduplication_field) ? update_record.send(deduplication_field) : update_record}"
         additional_attrs = {
@@ -192,13 +202,16 @@ module Darlingtonia
         # Ensure nothing is passed in the files field,
         # since this is reserved for Hyrax and is where uploaded_files will be attached
         attrs.delete(:files)
+
+        # We aren't using the attach remote files actor, so make sure any remote files are removed from the params before we try to save the object.
+        attrs.delete(:remote_files)
+
         based_near = attrs.delete(:based_near)
         attrs = attrs.merge(based_near_attributes: based_near_attributes(based_near)) unless based_near.nil? || based_near.empty?
-        actor_env = Hyrax::Actors::Environment.new(existing_record,
-                                                   ::Ability.new(@depositor),
-                                                   attrs)
-        if Hyrax::CurationConcern.actor.update(actor_env)
-          info_stream << "event: record_updated, batch_id: #{batch_id}, record_id: #{existing_record.id}, collection_id: #{collection_id}, #{deduplication_field}: #{existing_record.respond_to?(deduplication_field) ? existing_record.send(deduplication_field) : existing_record}"
+
+        actor_env = Hyrax::Actors::Environment.new(existing_record, ::Ability.new(@depositor), attrs)
+        if metadata_only_middleware.update(actor_env)
+          info_stream << "event: record_updated, batch_id: #{batch_id}, record_id: #{existing_record.id}, collection_id: #{collection_id}, #{deduplication_field}: #{existing_record.respond_to?(deduplication_field) ? existing_record.send(deduplication_field)&.first : existing_record}"
           @success_count += 1
         else
           existing_record.errors.each do |attr, msg|
