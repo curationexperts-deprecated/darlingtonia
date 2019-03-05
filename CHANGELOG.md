@@ -1,3 +1,17 @@
+3.2.0 - Tue Mar 5, 2019
+
+* Allow the importer to receive log settings from elsewhere, so it can log
+success messages with all the other logs.
+
+* When a record is imported a second time (i.e., when there is already a
+record matching the deduplication field in the repository), only update
+its metadata and collection membership. Use a stripped down actor stack
+that only performs these actions.
+
+* Log a special message if we attempt an empty import.
+
+* Fix logging error where id number wasn't printing to logs on updates.
+
 3.1.0 - Tue Feb 26, 2019
 
 New Feature: `HyraxRecordImporter` now accepts a `deduplication_field` in the
