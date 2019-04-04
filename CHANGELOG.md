@@ -1,3 +1,7 @@
+3.2.1 - Thu Apr 4, 2019
+
+* Bugfix: When logging, do not assume the deduplication field is multi-valued. 
+
 3.2.0 - Tue Mar 5, 2019
 
 * Allow the importer to receive log settings from elsewhere, so it can log
