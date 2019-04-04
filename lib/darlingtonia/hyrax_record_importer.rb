@@ -211,7 +211,7 @@ module Darlingtonia
 
         actor_env = Hyrax::Actors::Environment.new(existing_record, ::Ability.new(@depositor), attrs)
         if metadata_only_middleware.update(actor_env)
-          info_stream << "event: record_updated, batch_id: #{batch_id}, record_id: #{existing_record.id}, collection_id: #{collection_id}, #{deduplication_field}: #{existing_record.respond_to?(deduplication_field) ? existing_record.send(deduplication_field)&.first : existing_record}"
+          info_stream << "event: record_updated, batch_id: #{batch_id}, record_id: #{existing_record.id}, collection_id: #{collection_id}, #{deduplication_field}: #{existing_record.respond_to?(deduplication_field) ? existing_record.send(deduplication_field) : existing_record}"
           @success_count += 1
         else
           existing_record.errors.each do |attr, msg|
