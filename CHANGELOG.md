@@ -1,6 +1,10 @@
+3.2.2 - Thu Apr 5, 2019
+
+* Bugfix: Do not require the active-fedora 12.1.1 to run darlingtonia, even though that version is required for the test suite to pass. 
+
 3.2.1 - Thu Apr 4, 2019
 
-* Bugfix: When logging, do not assume the deduplication field is multi-valued. 
+* Bugfix: When logging, do not assume the deduplication field is multi-valued.
 
 3.2.0 - Tue Mar 5, 2019
 
