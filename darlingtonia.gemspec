@@ -17,7 +17,7 @@ Gem::Specification.new do |gem|
 
   gem.required_ruby_version = '>= 2.3.4'
 
-  gem.add_dependency 'active-fedora', '>= 12.1.1'
+  gem.add_dependency 'active-fedora', '>= 11.5.2'
 
   gem.add_development_dependency 'yard',           '~> 0.9'
   gem.add_development_dependency 'bixby',          '~> 1.0'
