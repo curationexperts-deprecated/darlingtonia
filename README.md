@@ -1,5 +1,8 @@
 # Darlingtonia
 
+***
+Darlingtonia is getting a new name and a new focus. Darlingtonia started as a command line importer tool, but in recent projects we have added UI that allows users to import directly form the Hyrax dashboard. To reflect this and other changes our importer gem will now be called **Zizia**. Accordingly, we are depreciating Darlingtonia and all future development will be done on **Zizia**. In the future, **Zizia** will not be compatible with Darlingtonia. The code for Darlingtonia will remain available here, but no future development will be occurring.
+***
 <table width="100%">
 <tr><td>
 <img alt="Darlingtonia californica image" src="https://upload.wikimedia.org/wikipedia/commons/2/20/Darlingtonia_californica_ne1.JPG" width="500px">
