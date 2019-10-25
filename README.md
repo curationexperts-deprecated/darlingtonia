@@ -1,7 +1,7 @@
 # Darlingtonia
 
 ***
-Darlingtonia is getting a new name and a new focus. Darlingtonia started as a command line importer tool, but in recent projects we have added UI that allows users to import directly form the Hyrax dashboard. To reflect this and other changes our importer gem will now be called **Zizia**. Accordingly, we are depreciating Darlingtonia and all future development will be done on **Zizia**. In the future, **Zizia** will not be compatible with Darlingtonia. The code for Darlingtonia will remain available here, but no future development will be occurring.
+**DEPRECATION NOTICE:** Darlingtonia is getting a new name and a new focus. Darlingtonia started as a command line importer tool, but in recent projects we have added UI that allows users to import directly form the Hyrax dashboard. To reflect this and other changes our importer gem will now be called [**Zizia**](https://github.com/curationexperts/zizia). Accordingly, we are depreciating Darlingtonia and all future development will be done on [**Zizia**](https://github.com/curationexperts/zizia). Moving forward, [**Zizia**](https://github.com/curationexperts/zizia) will not be backward compatible with Darlingtonia. The code for Darlingtonia will remain available here, but no future development will be occurring.
 ***
 <table width="100%">
 <tr><td>
